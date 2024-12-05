@@ -50,82 +50,87 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      body: Column(
-        children: [
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
 
-          const SizedBox(
-            height: 180,
-          ),
-
-          Text(
-            'Sign in',
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.onSurface,
-              fontWeight: FontWeight.w400,
-              fontSize: 32,
-              height: 40 / 32
+            const SizedBox(
+              height: 180,
             ),
-          ),
 
-          const SizedBox(height: 72,),
+            Text(
+              'Sign in',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onSurface,
+                fontWeight: FontWeight.w400,
+                fontSize: 32,
+                height: 40 / 32
+              ),
+            ),
 
-          //email field
-          Form(
-            key: _formKey,
-            child: Column(
-              children: [
+            const SizedBox(height: 72,),
 
-                FormInputField(
-                  controller: emailTextController,
-                  hintText: 'Enter your email',
-                  labelText: 'Email',
-                  focusNode: emailFocusNode,
-                  errorText: emailErrorText,
-                  onChanged: (value) {
-                    setState(() {
-                      emailErrorText = null;
-                    });
-                  },
-                ),
+            //email field
+            Form(
+              key: _formKey,
+              child: Column(
+                children: [
 
-                const SizedBox(
-                  height: 36,
-                ),
-
-                //password field
-                FormInputField(
-                  controller: passwordTextController,
-                  hintText: 'Enter your password',
-                  labelText: 'Password',
-                  focusNode: passwordFocusNode,
-                  errorText: passwordErrorText,
-                  isPasswordField: true,
-                  isObscureText: isObscurePasswordText,
-                  maxLength: 10,
-                  suffixIcon: FormFieldSuffixIcon(
-                    icon: isObscurePasswordText ? Icons.visibility_off : Icons.visibility_sharp,
-                    onPressed: togglePassword,
-                    tooltip: 'Toggle Password',
+                  FormInputField(
+                    controller: emailTextController,
+                    hintText: 'Enter your email',
+                    labelText: 'Email',
+                    focusNode: emailFocusNode,
+                    errorText: emailErrorText,
+                    onChanged: (value) {
+                      setState(() {
+                        emailErrorText = null;
+                      });
+                    },
                   ),
-                  onChanged: (value) {
-                    setState(() {
-                      passwordErrorText = null;
-                    });
-                  },
-                ),
 
-              ],
+                  const SizedBox(
+                    height: 36,
+                  ),
+
+                  //password field
+                  FormInputField(
+                    controller: passwordTextController,
+                    hintText: 'Enter your password',
+                    labelText: 'Password',
+                    focusNode: passwordFocusNode,
+                    errorText: passwordErrorText,
+                    isPasswordField: true,
+                    isObscureText: isObscurePasswordText,
+                    maxLength: 10,
+                    suffixIcon: FormFieldSuffixIcon(
+                      icon: isObscurePasswordText ? Icons.visibility_off : Icons.visibility_sharp,
+                      onPressed: togglePassword,
+                      tooltip: 'Toggle Password',
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        passwordErrorText = null;
+                      });
+                    },
+                  ),
+
+                ],
+              ),
             ),
-          ),
 
-          const SizedBox(
-            height: 36,
-          ),
+            const SizedBox(
+              height: 36,
+            ),
 
-          //log in button
-          SplashButton(text: 'Log in', onPressed: () {}),
+            //log in button
+            SplashButton(
+              text: 'Log in',
+              onPressed: onSubmit,
+            ),
 
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -156,7 +161,7 @@ class _LoginPageState extends State<LoginPage> {
       setState(() {});
     }
 
-    //the form is valid
+
 
     //change UI to loading;
     //send a request

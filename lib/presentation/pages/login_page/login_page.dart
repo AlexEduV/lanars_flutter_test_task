@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lanars_flutter_test_task/presentation/pages/login_page/widgets/form_field_suffix_icon.dart';
 import 'package:lanars_flutter_test_task/presentation/pages/login_page/widgets/form_input_field.dart';
+import 'package:lanars_flutter_test_task/presentation/pages/login_page/widgets/splash_button.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -81,6 +82,13 @@ class _LoginPageState extends State<LoginPage> {
               tooltip: 'Toggle Password',
             ),
           ),
+
+          const SizedBox(
+            height: 36,
+          ),
+
+          //log in button
+          SplashButton(text: 'Log in', onPressed: () {}),
 
         ],
       ),

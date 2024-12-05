@@ -27,7 +27,7 @@ class FormInputField extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Padding(
-      padding: const EdgeInsets.only(top: 10.0, right: 48, left: 48),
+      padding: const EdgeInsets.only(right: 16.0, left: 16.0),
       child: TextFormField(
         focusNode: focusNode,
         decoration: InputDecoration(

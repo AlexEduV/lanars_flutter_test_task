@@ -2,16 +2,20 @@ import 'package:flutter/material.dart';
 
 class FormInputField extends StatelessWidget {
 
-  final String hintText;
-  final int maxLength;
   final TextEditingController controller;
+  final String hintText;
+  final String labelText;
+  final FocusNode focusNode;
+  final int maxLength;
   final Widget? suffixIcon;
   final bool isPasswordField;
   final bool isObscureText;
 
   const FormInputField({
-    required this.hintText,
     required this.controller,
+    required this.hintText,
+    required this.labelText,
+    required this.focusNode,
     this.maxLength = 20,
     this.suffixIcon,
     this.isPasswordField = false,
@@ -25,12 +29,19 @@ class FormInputField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 10.0, right: 48, left: 48),
       child: TextFormField(
+        focusNode: focusNode,
         decoration: InputDecoration(
           border: const OutlineInputBorder(),
+          hintText: hintText,
+          hintStyle: TextStyle(
+            color: Theme.of(context).colorScheme.onSurfaceVariant
+          ),
           label: Text(
-            hintText,
-            style: const TextStyle(
-              color: Colors.grey,
+            labelText,
+            style: TextStyle(
+              color: focusNode.hasFocus
+                  ? Theme.of(context).colorScheme.primary
+                  : Theme.of(context).colorScheme.onSurfaceVariant,
             ),
           ),
           counterText: "",

@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
 
           return ImageListItem(
               imageSrc: GlobalMockStorage.user.avatarImageSrc,
-              title: 'Some title here',
+              title: 'Photographer name here',
               content: 'Alt text here',
           );
 

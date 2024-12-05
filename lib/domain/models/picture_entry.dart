@@ -1,13 +1,13 @@
 class PictureEntry {
 
   final String imageSrc;
-  final String title;
-  final String content;
+  final String photographer;
+  final String altTitle;
 
   const PictureEntry({
     required this.imageSrc,
-    required this.title,
-    required this.content,
+    required this.photographer,
+    required this.altTitle,
   });
 
 }

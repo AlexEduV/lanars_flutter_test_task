@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lanars_flutter_test_task/data/services/dio_client.dart';
+import 'package:lanars_flutter_test_task/data/storage/global_mock_storage.dart';
+import 'package:lanars_flutter_test_task/domain/models/custom_form_data.dart';
 import 'package:lanars_flutter_test_task/domain/usecases/validate_form_usecase.dart';
 import 'package:lanars_flutter_test_task/presentation/pages/login_page/widgets/form_field_suffix_icon.dart';
 import 'package:lanars_flutter_test_task/presentation/pages/login_page/widgets/form_input_field.dart';
@@ -174,10 +176,23 @@ class _LoginPageState extends State<LoginPage> {
     });
 
     //send a request
-    final result = await DioClient.submitForm(formData);
+    final result = await DioClient.submitForm(
+      CustomFormData(email: email, password: password).toMap(),
+    );
 
-    //put response to the global variables
+    debugPrint(result);
 
+    final user = await DioClient.getRandomUser();
+    debugPrint(user);
+
+    if (GlobalMockStorage.user.name.isEmpty) {
+      //operation is unsuccessful;
+      //show message to the user
+    }
+    else {
+      //operation successful
+      debugPrint(GlobalMockStorage.user.name);
+    }
 
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lanars_flutter_test_task/data/services/dio_client.dart';
 import 'package:lanars_flutter_test_task/data/storage/global_mock_storage.dart';
+import 'package:lanars_flutter_test_task/presentation/pages/home_page/widgets/image_list_item.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -9,6 +11,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  int listSize = 30;
+
+  @override
+  void initState() {
+    super.initState();
+
+    //init load the list
+    loadList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,62 +39,13 @@ class _HomePageState extends State<HomePage> {
       ),
       body: ListView.separated(
         padding: const EdgeInsets.only(top: 16.0),
-        itemCount: 30,
+        itemCount: listSize,
         itemBuilder: (context, index) {
 
-          return Row(
-            children: [
-
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Theme.of(context).colorScheme.outlineVariant,
-                    ),
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  padding: const EdgeInsets.only(top: 12, bottom: 12, right: 24, left: 24),
-                  margin: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
-                    children: [
-
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                        child: Image.network(
-                          GlobalMockStorage.user.avatarImageSrc,
-                          height: 56.0,
-                          width: 64.0,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-
-                      const SizedBox(width: 16.0),
-
-                      const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-
-                          Text('Some name here'),
-
-                          Text(
-                            'Alt text here',
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-
-                        ],
-                      ),
-
-
-
-                    ],
-                  ),
-                ),
-              )
-
-            ],
+          return ImageListItem(
+              imageSrc: GlobalMockStorage.user.avatarImageSrc,
+              title: 'Some title here',
+              content: 'Alt text here',
           );
 
         },
@@ -165,4 +128,11 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
+  void loadList() async {
+
+    final pictures = await DioClient.getPictures();
+
+  }
+
 }

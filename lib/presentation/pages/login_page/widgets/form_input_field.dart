@@ -10,12 +10,16 @@ class FormInputField extends StatelessWidget {
   final Widget? suffixIcon;
   final bool isPasswordField;
   final bool isObscureText;
+  final ValueChanged<String>? onChanged;
+  final FormFieldValidator validator;
 
   const FormInputField({
     required this.controller,
     required this.hintText,
     required this.labelText,
     required this.focusNode,
+    required this.validator,
+    this.onChanged,
     this.maxLength = 30,
     this.suffixIcon,
     this.isPasswordField = false,
@@ -54,6 +58,8 @@ class FormInputField extends StatelessWidget {
         enableSuggestions: !isPasswordField,
         autocorrect: !isPasswordField,
         enableInteractiveSelection: isPasswordField,
+        validator: validator,
+        onChanged: onChanged,
       ),
     );
   }

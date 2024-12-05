@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lanars_flutter_test_task/domain/validate_form_usecase.dart';
 import 'package:lanars_flutter_test_task/presentation/pages/login_page/widgets/form_field_suffix_icon.dart';
 import 'package:lanars_flutter_test_task/presentation/pages/login_page/widgets/form_input_field.dart';
 import 'package:lanars_flutter_test_task/presentation/pages/login_page/widgets/splash_button.dart';
@@ -12,6 +13,8 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
 
+  final _formKey = GlobalKey<FormState>();
+
   TextEditingController emailTextController = TextEditingController();
   TextEditingController passwordTextController = TextEditingController();
 
@@ -20,15 +23,22 @@ class _LoginPageState extends State<LoginPage> {
 
   bool isObscurePasswordText = false;
 
+
   @override
   void initState() {
     super.initState();
     
     emailFocusNode.addListener(() {
+
+      _formKey.currentState?.validate();
+
       setState(() {});
     });
 
     passwordFocusNode.addListener(() {
+
+      _formKey.currentState?.validate();
+
       setState(() {});
     });
   }
@@ -57,30 +67,41 @@ class _LoginPageState extends State<LoginPage> {
           const SizedBox(height: 72,),
 
           //email field
-          FormInputField(
-            controller: emailTextController,
-            hintText: 'Enter your email',
-            labelText: 'Email',
-            focusNode: emailFocusNode,
-          ),
+          Form(
+            key: _formKey,
+            child: Column(
+              children: [
 
-          const SizedBox(
-            height: 36,
-          ),
+                FormInputField(
+                  controller: emailTextController,
+                  hintText: 'Enter your email',
+                  labelText: 'Email',
+                  focusNode: emailFocusNode,
+                  validator: (value) => validateEmail(value),
+                ),
 
-          //password field
-          FormInputField(
-            controller: passwordTextController,
-            hintText: 'Enter your password',
-            labelText: 'Password',
-            focusNode: passwordFocusNode,
-            isPasswordField: true,
-            isObscureText: isObscurePasswordText,
-            maxLength: 10,
-            suffixIcon: FormFieldSuffixIcon(
-              icon: isObscurePasswordText ? Icons.visibility_off : Icons.visibility_sharp,
-              onPressed: togglePassword,
-              tooltip: 'Toggle Password',
+                const SizedBox(
+                  height: 36,
+                ),
+
+                //password field
+                FormInputField(
+                  controller: passwordTextController,
+                  hintText: 'Enter your password',
+                  labelText: 'Password',
+                  focusNode: passwordFocusNode,
+                  validator: (value) => validatePassword(value),
+                  isPasswordField: true,
+                  isObscureText: isObscurePasswordText,
+                  maxLength: 10,
+                  suffixIcon: FormFieldSuffixIcon(
+                    icon: isObscurePasswordText ? Icons.visibility_off : Icons.visibility_sharp,
+                    onPressed: togglePassword,
+                    tooltip: 'Toggle Password',
+                  ),
+                ),
+
+              ],
             ),
           ),
 

@@ -12,6 +12,7 @@ class FormInputField extends StatelessWidget {
   final bool isObscureText;
   final ValueChanged<String>? onChanged;
   final String? errorText;
+  final bool isEnabled;
 
   const FormInputField({
     required this.controller,
@@ -23,6 +24,7 @@ class FormInputField extends StatelessWidget {
     this.suffixIcon,
     this.isPasswordField = false,
     this.isObscureText = false,
+    this.isEnabled = true,
     this.errorText,
     super.key,
   });
@@ -60,6 +62,7 @@ class FormInputField extends StatelessWidget {
         autocorrect: !isPasswordField,
         enableInteractiveSelection: isPasswordField,
         onChanged: onChanged,
+        enabled: isEnabled,
       ),
     );
   }

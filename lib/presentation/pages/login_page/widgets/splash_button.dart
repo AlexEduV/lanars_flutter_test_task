@@ -27,7 +27,7 @@ class SplashButton extends StatelessWidget {
           ),
           minimumSize: const Size.fromHeight(40.0),
         ),
-        onPressed: onPressed,
+        onPressed: !isLoading ? onPressed : () {},
         child: !isLoading ? Text(
           text,
           style: const TextStyle(

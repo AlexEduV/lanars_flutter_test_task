@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lanars_flutter_test_task/domain/validate_form_usecase.dart';
+import 'package:lanars_flutter_test_task/data/services/dio_client.dart';
+import 'package:lanars_flutter_test_task/domain/usecases/validate_form_usecase.dart';
 import 'package:lanars_flutter_test_task/presentation/pages/login_page/widgets/form_field_suffix_icon.dart';
 import 'package:lanars_flutter_test_task/presentation/pages/login_page/widgets/form_input_field.dart';
 import 'package:lanars_flutter_test_task/presentation/pages/login_page/widgets/splash_button.dart';
@@ -89,6 +90,7 @@ class _LoginPageState extends State<LoginPage> {
                         emailErrorText = null;
                       });
                     },
+                    isEnabled: !isRequestLoading,
                   ),
 
                   const SizedBox(
@@ -115,6 +117,7 @@ class _LoginPageState extends State<LoginPage> {
                         passwordErrorText = null;
                       });
                     },
+                    isEnabled: !isRequestLoading,
                   ),
 
                 ],
@@ -151,7 +154,7 @@ class _LoginPageState extends State<LoginPage> {
     setState(() => isObscurePasswordText = !isObscurePasswordText);
   }
 
-  void onSubmit() {
+  void onSubmit() async {
 
     final email = emailTextController.text;
     final password = passwordTextController.text;
@@ -165,12 +168,14 @@ class _LoginPageState extends State<LoginPage> {
       return;
     }
 
-    //change UI to loading;
+    //change UI to loading; disable inputs and a button
     setState(() {
       isRequestLoading = true;
     });
 
     //send a request
+    final result = await DioClient.submitForm(formData);
+
     //put response to the global variables
 
 

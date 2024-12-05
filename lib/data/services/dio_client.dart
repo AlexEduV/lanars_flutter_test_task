@@ -13,6 +13,8 @@ class DioClient {
   static const randomUserEndPoint = 'https://randomuser.me/api/';
   static const picturesEndPoint = 'https://api.pexels.com/v1/curated?per_page=50';
 
+  static const api = 'd0K2cyjHJ01jpHmINGkSZyoyrZ6CNxDUcsECbOdTzMeDG0AZpJteBDjp';
+
   static Future<String> submitForm(Map<String, dynamic> formData) async {
 
     try {
@@ -75,7 +77,15 @@ class DioClient {
   static Future<String> getPictures() async {
 
     try {
-      final response = await client.get(picturesEndPoint);
+
+      final response = await client.get(
+          picturesEndPoint,
+          options: Options(
+            headers: {
+              'Authorization': api
+            }
+          )
+      );
       if (response.statusCode == 200) {
         debugPrint(response.toString());
 

@@ -23,6 +23,9 @@ class _LoginPageState extends State<LoginPage> {
 
   bool isObscurePasswordText = false;
 
+  String? emailErrorText;
+  String? passwordErrorText;
+
 
   @override
   void initState() {
@@ -30,16 +33,16 @@ class _LoginPageState extends State<LoginPage> {
     
     emailFocusNode.addListener(() {
 
-      _formKey.currentState?.validate();
-
+      emailErrorText = validateEmail(emailTextController.text);
       setState(() {});
+
     });
 
     passwordFocusNode.addListener(() {
 
-      _formKey.currentState?.validate();
-
+      passwordErrorText = validatePassword(passwordTextController.text);
       setState(() {});
+
     });
   }
 
@@ -77,7 +80,12 @@ class _LoginPageState extends State<LoginPage> {
                   hintText: 'Enter your email',
                   labelText: 'Email',
                   focusNode: emailFocusNode,
-                  validator: (value) => validateEmail(value),
+                  errorText: emailErrorText,
+                  onChanged: (value) {
+                    setState(() {
+                      emailErrorText = null;
+                    });
+                  },
                 ),
 
                 const SizedBox(
@@ -90,7 +98,7 @@ class _LoginPageState extends State<LoginPage> {
                   hintText: 'Enter your password',
                   labelText: 'Password',
                   focusNode: passwordFocusNode,
-                  validator: (value) => validatePassword(value),
+                  errorText: passwordErrorText,
                   isPasswordField: true,
                   isObscureText: isObscurePasswordText,
                   maxLength: 10,
@@ -99,6 +107,11 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: togglePassword,
                     tooltip: 'Toggle Password',
                   ),
+                  onChanged: (value) {
+                    setState(() {
+                      passwordErrorText = null;
+                    });
+                  },
                 ),
 
               ],
@@ -128,5 +141,27 @@ class _LoginPageState extends State<LoginPage> {
 
   void togglePassword() {
     setState(() => isObscurePasswordText = !isObscurePasswordText);
+  }
+
+  void onSubmit() {
+
+    final email = emailTextController.text;
+    final password = passwordTextController.text;
+
+    //revalidate inputs
+    emailErrorText = validateEmail(email);
+    passwordErrorText = validatePassword(password);
+
+    if (emailErrorText != null && passwordErrorText != null) {
+      setState(() {});
+    }
+
+    //the form is valid
+
+    //change UI to loading;
+    //send a request
+    //put response to the global variables
+
+
   }
 }

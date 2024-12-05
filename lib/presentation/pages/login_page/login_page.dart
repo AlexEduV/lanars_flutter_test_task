@@ -185,13 +185,13 @@ class _LoginPageState extends State<LoginPage> {
     final user = await DioClient.getRandomUser();
     debugPrint(user);
 
-    if (GlobalMockStorage.user.name.isEmpty) {
+    if (GlobalMockStorage.user.firstName.isEmpty) {
       //operation is unsuccessful;
       //show message to the user
     }
     else {
       //operation successful
-      debugPrint(GlobalMockStorage.user.name);
+      debugPrint(GlobalMockStorage.user.firstName);
     }
 
   }

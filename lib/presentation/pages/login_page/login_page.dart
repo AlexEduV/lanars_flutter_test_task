@@ -3,6 +3,7 @@ import 'package:lanars_flutter_test_task/data/services/dio_client.dart';
 import 'package:lanars_flutter_test_task/data/storage/global_mock_storage.dart';
 import 'package:lanars_flutter_test_task/domain/models/custom_form_data.dart';
 import 'package:lanars_flutter_test_task/domain/usecases/validate_form_usecase.dart';
+import 'package:lanars_flutter_test_task/presentation/pages/home_page/home_page.dart';
 import 'package:lanars_flutter_test_task/presentation/pages/login_page/widgets/form_field_suffix_icon.dart';
 import 'package:lanars_flutter_test_task/presentation/pages/login_page/widgets/form_input_field.dart';
 import 'package:lanars_flutter_test_task/presentation/pages/login_page/widgets/splash_button.dart';
@@ -179,19 +180,27 @@ class _LoginPageState extends State<LoginPage> {
     final result = await DioClient.submitForm(
       CustomFormData(email: email, password: password).toMap(),
     );
-
     debugPrint(result);
 
-    final user = await DioClient.getRandomUser();
-    debugPrint(user);
+    final userResult = await DioClient.getRandomUser();
+    //debugPrint(userResult);
+
+    setState(() {
+      isRequestLoading = false;
+    });
 
     if (GlobalMockStorage.user.firstName.isEmpty) {
       //operation is unsuccessful;
+
       //show message to the user
+      final snackBar = SnackBar(content: Text(userResult));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
     }
     else {
       //operation successful
-      debugPrint(GlobalMockStorage.user.firstName);
+      //navigate to the next screen
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage(),),);
     }
 
   }

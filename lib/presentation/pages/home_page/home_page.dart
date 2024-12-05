@@ -25,7 +25,67 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: Scaffold(),
+      body: ListView.separated(
+        padding: const EdgeInsets.only(top: 16.0),
+        itemCount: 30,
+        itemBuilder: (context, index) {
+
+          return Row(
+            children: [
+
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Theme.of(context).colorScheme.outlineVariant,
+                  ),
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 12, bottom: 12, right: 24, left: 24),
+                  child: Row(
+                    children: [
+
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        child: Image.network(
+                          GlobalMockStorage.user.avatarImageSrc,
+                          height: 56.0,
+                          width: 64.0,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+
+                      const SizedBox(width: 16.0),
+
+                      const Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+
+                          Text('Some name here'),
+
+                          Text('Alt text here')
+
+                        ],
+                      ),
+
+
+
+                    ],
+                  ),
+                ),
+              )
+
+            ],
+          );
+
+        },
+        separatorBuilder: (context, index) {
+
+          return const SizedBox(height: 16.0,);
+        },
+      ),
       drawer: Drawer(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,7 +153,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
 
-            
+
 
           ],
         ),

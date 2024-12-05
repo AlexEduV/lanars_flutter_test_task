@@ -25,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
   FocusNode emailFocusNode = FocusNode();
   FocusNode passwordFocusNode = FocusNode();
 
-  bool isObscurePasswordText = false;
+  bool isObscurePasswordText = true;
 
   String? emailErrorText;
   String? passwordErrorText;

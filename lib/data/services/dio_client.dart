@@ -78,6 +78,9 @@ class DioClient {
       final response = await client.get(picturesEndPoint);
       if (response.statusCode == 200) {
         debugPrint(response.toString());
+
+        //convert to list of pictureData
+
       }
       else {
         return 'Server Error. Please, try again';

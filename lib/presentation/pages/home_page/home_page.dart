@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lanars_flutter_test_task/data/services/dio_client.dart';
 import 'package:lanars_flutter_test_task/data/storage/global_mock_storage.dart';
+import 'package:lanars_flutter_test_task/domain/models/picture_entry.dart';
 import 'package:lanars_flutter_test_task/presentation/pages/home_page/widgets/image_list_item.dart';
 
 class HomePage extends StatefulWidget {
@@ -12,7 +13,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  int listSize = 30;
+  int listSize = 0;
 
   @override
   void initState() {
@@ -42,10 +43,12 @@ class _HomePageState extends State<HomePage> {
         itemCount: listSize,
         itemBuilder: (context, index) {
 
+          final PictureEntry result = GlobalMockStorage.results[index];
+
           return ImageListItem(
-              imageSrc: GlobalMockStorage.user.avatarImageSrc,
-              title: 'Photographer name here',
-              content: 'Alt text here',
+              imageSrc: result.imageSrc,
+              title: result.photographer,
+              content: result.altTitle,
           );
 
         },
@@ -131,7 +134,13 @@ class _HomePageState extends State<HomePage> {
 
   void loadList() async {
 
+    //todo: the logic is unnecessary
     final pictures = await DioClient.getPictures();
+
+    setState(() {
+      listSize = GlobalMockStorage.results.length;
+    });
+
 
   }
 

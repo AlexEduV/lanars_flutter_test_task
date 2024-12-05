@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:lanars_flutter_test_task/data/storage/global_mock_storage.dart';
+import 'package:lanars_flutter_test_task/domain/models/picture_entry.dart';
 import 'package:lanars_flutter_test_task/domain/models/user.dart';
 
 class DioClient {
@@ -89,7 +90,14 @@ class DioClient {
       if (response.statusCode == 200) {
         debugPrint(response.toString());
 
-        //convert to list of pictureData
+        //convert to list of picture entities
+        final decodedJson = jsonDecode(response.toString());
+
+        final List<PictureEntry> resultsList = (decodedJson['photos'] as List)
+            .map((pictureJson) => PictureEntry.fromJson(pictureJson))
+            .toList();
+
+        GlobalMockStorage.results = resultsList;
 
       }
       else {

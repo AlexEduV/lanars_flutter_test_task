@@ -10,4 +10,14 @@ class PictureEntry {
     required this.altTitle,
   });
 
+
+  factory PictureEntry.fromJson(Map<String, dynamic> json) {
+
+    return PictureEntry(
+      imageSrc: json['src']['small'],
+      photographer: json['photographer'],
+      altTitle: json['alt'] ?? '',
+    );
+  }
+
 }

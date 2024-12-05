@@ -76,6 +76,7 @@ class _LoginPageState extends State<LoginPage> {
             focusNode: passwordFocusNode,
             isPasswordField: true,
             isObscureText: isObscurePasswordText,
+            maxLength: 10,
             suffixIcon: FormFieldSuffixIcon(
               icon: isObscurePasswordText ? Icons.visibility_off : Icons.visibility_sharp,
               onPressed: togglePassword,

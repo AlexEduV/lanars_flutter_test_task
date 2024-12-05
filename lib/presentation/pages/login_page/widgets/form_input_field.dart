@@ -16,7 +16,7 @@ class FormInputField extends StatelessWidget {
     required this.hintText,
     required this.labelText,
     required this.focusNode,
-    this.maxLength = 20,
+    this.maxLength = 30,
     this.suffixIcon,
     this.isPasswordField = false,
     this.isObscureText = false,

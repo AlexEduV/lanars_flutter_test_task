@@ -33,15 +33,16 @@ class _HomePageState extends State<HomePage> {
           return Row(
             children: [
 
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Theme.of(context).colorScheme.outlineVariant,
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Theme.of(context).colorScheme.outlineVariant,
+                    ),
+                    borderRadius: BorderRadius.circular(8.0),
                   ),
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                child: Padding(
                   padding: const EdgeInsets.only(top: 12, bottom: 12, right: 24, left: 24),
+                  margin: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Row(
                     children: [
 
@@ -65,7 +66,11 @@ class _HomePageState extends State<HomePage> {
 
                           Text('Some name here'),
 
-                          Text('Alt text here')
+                          Text(
+                            'Alt text here',
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
 
                         ],
                       ),

@@ -4,10 +4,12 @@ class SplashButton extends StatelessWidget {
 
   final String text;
   final VoidCallback onPressed;
+  final bool isLoading;
 
   const SplashButton({
     required this.text,
     required this.onPressed,
+    required this.isLoading,
     super.key,
   });
 
@@ -26,7 +28,7 @@ class SplashButton extends StatelessWidget {
           minimumSize: const Size.fromHeight(40.0),
         ),
         onPressed: onPressed,
-        child: Text(
+        child: !isLoading ? Text(
           text,
           style: const TextStyle(
             fontSize: 14,
@@ -35,6 +37,10 @@ class SplashButton extends StatelessWidget {
             letterSpacing: 0.1,
             color: Colors.white,
           ),
+        ) : const SizedBox(
+            height: 24,
+            width: 24,
+            child: CircularProgressIndicator(color: Colors.white,),
         ),
       ),
     );

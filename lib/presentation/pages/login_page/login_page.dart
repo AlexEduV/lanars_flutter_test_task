@@ -26,6 +26,8 @@ class _LoginPageState extends State<LoginPage> {
   String? emailErrorText;
   String? passwordErrorText;
 
+  bool isRequestLoading = false;
+
 
   @override
   void initState() {
@@ -127,6 +129,7 @@ class _LoginPageState extends State<LoginPage> {
             SplashButton(
               text: 'Log in',
               onPressed: onSubmit,
+              isLoading: isRequestLoading,
             ),
 
           ],
@@ -159,11 +162,14 @@ class _LoginPageState extends State<LoginPage> {
 
     if (emailErrorText != null && passwordErrorText != null) {
       setState(() {});
+      return;
     }
 
-
-
     //change UI to loading;
+    setState(() {
+      isRequestLoading = true;
+    });
+
     //send a request
     //put response to the global variables
 

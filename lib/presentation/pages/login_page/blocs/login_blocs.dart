@@ -75,24 +75,22 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   void _onEmailFocusChanged(
       EmailFocusChanged event, Emitter<LoginState> emit) {
     final currentState = state as LoginInitial;
-    final emailError = !event.isFocused ? validateEmail(event.email) : null;
 
-    emit(currentState.copyWith(
-      isEmailFocused: event.isFocused,
-      emailError: emailError,
-    ));
+    if (!event.isFocused) {
+      final emailError =  validateEmail(event.email);
+      emit(currentState.copyWith(emailError: emailError));
+    }
   }
 
   // Password focus change handler
   void _onPasswordFocusChanged(
       PasswordFocusChanged event, Emitter<LoginState> emit) {
     final currentState = state as LoginInitial;
-    final passwordError = !event.isFocused ? validatePassword(event.password) : null;
 
-    emit(currentState.copyWith(
-      isPasswordFocused: event.isFocused,
-      passwordError: passwordError,
-    ));
+    if (!event.isFocused) {
+      final passwordError =  validatePassword(event.password);
+      emit(currentState.copyWith(passwordError: passwordError));
+    }
   }
 }
 

@@ -18,8 +18,8 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
 
-  late FocusNode emailFocusNode;
-  late FocusNode passwordFocusNode;
+  late FocusNode emailFocusNode = FocusNode();
+  late FocusNode passwordFocusNode = FocusNode();
 
   final TextEditingController emailTextController = TextEditingController();
   final TextEditingController passwordTextController = TextEditingController();
@@ -27,9 +27,6 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-
-    emailFocusNode = FocusNode();
-    passwordFocusNode = FocusNode();
 
     emailFocusNode.addListener(() {
 
@@ -55,6 +52,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: BlocConsumer<LoginBloc, LoginState>(
         listener: (context, state) {
@@ -72,8 +70,9 @@ class _LoginPageState extends State<LoginPage> {
         },
         builder: (context, state) {
 
-          final currentState = state as LoginInitial;
-          final isPasswordObscured = currentState.isPasswordObscure;
+          final isObscure = (state is LoginInitial) ? state.isPasswordObscure : true;
+          final emailError = (state is LoginInitial) ? state.emailError : null;
+          final passwordError = (state is LoginInitial) ? state.passwordError : null;
 
           return SingleChildScrollView(
             child: Column(
@@ -95,6 +94,7 @@ class _LoginPageState extends State<LoginPage> {
                   key: GlobalKey<FormState>(),
                   child: Column(
                     children: [
+
                       FormInputField(
                         controller: emailTextController,
                         hintText: 'Enter your email',
@@ -103,21 +103,22 @@ class _LoginPageState extends State<LoginPage> {
                           context.read<LoginBloc>().add(ClearEmailErrors());
                         },
                         focusNode: emailFocusNode,
-                        errorText: currentState.emailError,
+                        errorText: emailError,
                       ),
+
                       const SizedBox(height: 36),
 
                       // password field
                       FormInputField(
-                        isObscureText: currentState.isPasswordObscure,
+                        isObscureText: isObscure,
                         controller: passwordTextController,
                         hintText: 'Enter your password',
                         labelText: 'Password',
-                        errorText: currentState.passwordError,
+                        errorText: passwordError,
                         isPasswordField: true,
                         maxLength: 10,
                         suffixIcon: FormFieldSuffixIcon(
-                          icon: isPasswordObscured ? Icons.visibility_off : Icons.visibility,
+                          icon: isObscure ? Icons.visibility_off : Icons.visibility,
                           onPressed: () {
                             context.read<LoginBloc>().add(TogglePasswordVisibility());
                           },
@@ -157,6 +158,9 @@ class _LoginPageState extends State<LoginPage> {
   void dispose() {
     emailFocusNode.dispose();
     passwordFocusNode.dispose();
+
+    emailTextController.dispose();
+    passwordTextController.dispose();
 
     super.dispose();
   }

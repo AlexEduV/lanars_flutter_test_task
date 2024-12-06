@@ -50,16 +50,22 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   // Clear errors handlers
   void _onClearEmailErrors(ClearEmailErrors event, Emitter<LoginState> emit) {
     final currentState = state as LoginInitial;
-    emit(currentState.copyWith(
-      emailError: null,
-    ));
+
+    if (currentState.emailError != null) {
+      emit(currentState.copyWith(
+        emailError: null,
+      ));
+    }
   }
 
   void _onClearPasswordErrors(ClearPasswordErrors event, Emitter<LoginState> emit) {
     final currentState = state as LoginInitial;
-    emit(currentState.copyWith(
-      passwordError: null,
-    ));
+
+    if (currentState.passwordError != null) {
+      emit(currentState.copyWith(
+        passwordError: null,
+      ));
+    }
   }
 
   // Toggle password visibility handler
@@ -77,7 +83,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     final currentState = state as LoginInitial;
 
     if (!event.isFocused) {
-      final emailError =  validateEmail(event.email);
+      final emailError = validateEmail(event.email);
       emit(currentState.copyWith(emailError: emailError));
     }
   }
@@ -88,7 +94,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     final currentState = state as LoginInitial;
 
     if (!event.isFocused) {
-      final passwordError =  validatePassword(event.password);
+      final passwordError = validatePassword(event.password);
       emit(currentState.copyWith(passwordError: passwordError));
     }
   }

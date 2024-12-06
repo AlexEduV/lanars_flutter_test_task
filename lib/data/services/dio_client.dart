@@ -91,11 +91,15 @@ class DioClient {
         debugPrint(response.toString());
 
         //convert to list of picture entities
+        //todo: move this to the domain layer
         final decodedJson = jsonDecode(response.toString());
 
         final List<PictureEntry> resultsList = (decodedJson['photos'] as List)
             .map((pictureJson) => PictureEntry.fromJson(pictureJson))
             .toList();
+
+        //sort values by the name of the photographer
+        resultsList.sort((a, b) => a.photographerName.compareTo(b.photographerName));
 
         GlobalMockStorage.results = resultsList;
 

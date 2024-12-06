@@ -73,6 +73,10 @@ class _LoginPageState extends State<LoginPage> {
           }
         },
         builder: (context, state) {
+
+          final currentState = state as LoginInitial;
+          final isPasswordObscured = currentState.isPasswordObscure;
+
           return SingleChildScrollView(
             child: Column(
               children: [
@@ -101,18 +105,21 @@ class _LoginPageState extends State<LoginPage> {
                           context.read<LoginBloc>().add(ClearErrors());
                         },
                         focusNode: emailFocusNode,
+                        errorText: currentState.emailError,
                       ),
                       const SizedBox(height: 36),
 
                       // password field
                       FormInputField(
+                        isObscureText: currentState.isPasswordObscure,
                         controller: passwordTextController,
                         hintText: 'Enter your password',
                         labelText: 'Password',
+                        errorText: currentState.passwordError,
                         isPasswordField: true,
                         maxLength: 10,
                         suffixIcon: FormFieldSuffixIcon(
-                          icon: Icons.visibility_off,
+                          icon: isPasswordObscured ? Icons.visibility_off : Icons.visibility,
                           onPressed: () {
                             context.read<LoginBloc>().add(TogglePasswordVisibility());
                           },

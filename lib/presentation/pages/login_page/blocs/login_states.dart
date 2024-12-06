@@ -4,22 +4,30 @@ class LoginInitial extends LoginState {
   final bool isPasswordObscure;
   final bool isEmailFocused;
   final bool isPasswordFocused;
+  final String? emailError;
+  final String? passwordError;
 
   LoginInitial({
     this.isPasswordObscure = true,
     this.isEmailFocused = false,
     this.isPasswordFocused = false,
+    this.emailError,
+    this.passwordError,
   });
 
   LoginInitial copyWith({
     bool? isPasswordObscure,
     bool? isEmailFocused,
     bool? isPasswordFocused,
+    String? emailError,
+    String? passwordError,
   }) {
     return LoginInitial(
       isPasswordObscure: isPasswordObscure ?? this.isPasswordObscure,
       isEmailFocused: isEmailFocused ?? this.isEmailFocused,
       isPasswordFocused: isPasswordFocused ?? this.isPasswordFocused,
+      emailError: emailError ?? this.emailError,
+      passwordError: passwordError ?? this.passwordError,
     );
   }
 

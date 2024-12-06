@@ -46,17 +46,30 @@ class _HomePageState extends State<HomePage> {
 
           final result = results[index];
           final bool isHeader = result['isHeader'];
-          final String? letter = result['letter'];
+          final String letter = result['letter'];
           final PictureEntry entry = result['picture'];
 
-          debugPrint(entry.toString());
+          //debugPrint(entry.toString());
 
           return Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
 
-              Visibility(
-                visible: isHeader,
-                child: Text(letter ?? '')
+              Opacity(
+                opacity: isHeader ? 1.0 : 0.0,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 16.0),
+                  child: Text(
+                    letter,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontSize: 16,
+                      height: 24 / 16,
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: 0.15,
+                    ),
+                  ),
+                )
               ),
 
               Expanded(
@@ -149,7 +162,7 @@ class _HomePageState extends State<HomePage> {
 
   void loadList() async {
 
-    final pictures = await DioClient.getPictures();
+    await DioClient.getPictures();
 
     //map the results
     results = _groupPicturesByFirstLetter(GlobalMockStorage.results);
@@ -171,7 +184,7 @@ class _HomePageState extends State<HomePage> {
         lastLetter = letter;
       }
       // Add picture entry
-      grouped.add({'isHeader': false, 'picture': picture});
+      grouped.add({'isHeader': false, 'letter': letter, 'picture': picture});
     }
 
     return grouped;

@@ -33,8 +33,6 @@ class _LoginPageState extends State<LoginPage> {
 
     emailFocusNode.addListener(() {
 
-      debugPrint('email focus changed');
-
       context.read<LoginBloc>().add(
         EmailFocusChanged(
           isFocused: emailFocusNode.hasFocus,
@@ -102,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
                         hintText: 'Enter your email',
                         labelText: 'Email',
                         onChanged: (value) {
-                          context.read<LoginBloc>().add(ClearErrors());
+                          context.read<LoginBloc>().add(ClearEmailErrors());
                         },
                         focusNode: emailFocusNode,
                         errorText: currentState.emailError,
@@ -126,7 +124,7 @@ class _LoginPageState extends State<LoginPage> {
                           tooltip: 'Toggle Password',
                         ),
                         onChanged: (value) {
-                          context.read<LoginBloc>().add(ClearErrors());
+                          context.read<LoginBloc>().add(ClearPasswordErrors());
                         },
                         focusNode: passwordFocusNode,
                       ),

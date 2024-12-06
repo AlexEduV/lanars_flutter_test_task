@@ -11,7 +11,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc() : super(LoginInitial()) {
     // Register event handlers
     on<LoginSubmitted>(_onLoginSubmitted);
-    on<ClearErrors>(_onClearErrors);
+    on<ClearEmailErrors>(_onClearEmailErrors);
+    on<ClearPasswordErrors>(_onClearPasswordErrors);
     on<TogglePasswordVisibility>(_onTogglePasswordVisibility);
     on<EmailFocusChanged>(_onEmailFocusChanged);
     on<PasswordFocusChanged>(_onPasswordFocusChanged);
@@ -46,9 +47,19 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     }
   }
 
-  // Clear errors handler
-  void _onClearErrors(ClearErrors event, Emitter<LoginState> emit) {
-    emit(LoginInitial());
+  // Clear errors handlers
+  void _onClearEmailErrors(ClearEmailErrors event, Emitter<LoginState> emit) {
+    final currentState = state as LoginInitial;
+    emit(currentState.copyWith(
+      emailError: null,
+    ));
+  }
+
+  void _onClearPasswordErrors(ClearPasswordErrors event, Emitter<LoginState> emit) {
+    final currentState = state as LoginInitial;
+    emit(currentState.copyWith(
+      passwordError: null,
+    ));
   }
 
   // Toggle password visibility handler

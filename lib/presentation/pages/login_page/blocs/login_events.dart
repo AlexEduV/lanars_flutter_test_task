@@ -7,7 +7,8 @@ class LoginSubmitted extends LoginEvent {
   LoginSubmitted({required this.email, required this.password});
 }
 
-class ClearErrors extends LoginEvent {}
+class ClearEmailErrors extends LoginEvent {}
+class ClearPasswordErrors extends LoginEvent {}
 
 
 class TogglePasswordVisibility extends LoginEvent {}

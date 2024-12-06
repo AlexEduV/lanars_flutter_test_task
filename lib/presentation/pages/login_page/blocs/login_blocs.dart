@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lanars_flutter_test_task/data/services/dio_client.dart';
 import 'package:lanars_flutter_test_task/data/storage/global_mock_storage.dart';
@@ -10,6 +11,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc() : super(LoginInitial());
 
   Stream<LoginState> mapEventToState(LoginEvent event) async* {
+
     if (event is LoginSubmitted) {
       yield LoginLoading();
 
@@ -43,13 +45,35 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       if (event is ClearErrors) {
         yield LoginInitial();
       }
-    }
+    } else if (event is TogglePasswordVisibility) {
+      final currentState = state as LoginInitial;
+      yield currentState.copyWith(
+        isPasswordObscure: !currentState.isPasswordObscure
+      );
+    } else if (event is EmailFocusChanged) {
+      debugPrint('bloc: email focus changed');
 
-    if (event is TogglePasswordVisibility) {
-      final currentState = state;
+      final currentState = state as LoginInitial;
 
-      if (currentState is LoginInitial) {
-        yield LoginInitial(isPasswordObscure: !currentState.isPasswordObscure);
+      final emailError = !event.isFocused ? validateEmail(event.email) : null;
+      yield currentState.copyWith(
+        isEmailFocused: !currentState.isEmailFocused,
+      );
+
+      if (emailError != null) {
+        yield LoginError(emailError: emailError);
+      }
+
+    } else if (event is PasswordFocusChanged) {
+      final currentState = state as LoginInitial;
+
+      final passwordError = !event.isFocused ? validatePassword(event.password) : null;
+      yield currentState.copyWith(
+        isPasswordFocused: !currentState.isPasswordFocused,
+      );
+
+      if (passwordError != null) {
+        yield LoginError(passwordError: passwordError);
       }
 
     }

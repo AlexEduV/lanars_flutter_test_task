@@ -9,8 +9,51 @@ import 'package:lanars_flutter_test_task/presentation/pages/login_page/widgets/s
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+
+  late FocusNode emailFocusNode;
+  late FocusNode passwordFocusNode;
+
+  final TextEditingController emailTextController = TextEditingController();
+  final TextEditingController passwordTextController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    emailFocusNode = FocusNode();
+    passwordFocusNode = FocusNode();
+
+    emailFocusNode.addListener(() {
+
+      debugPrint('email focus changed');
+
+      context.read<LoginBloc>().add(
+        EmailFocusChanged(
+          isFocused: emailFocusNode.hasFocus,
+          email: emailTextController.text,
+        ),
+      );
+
+    });
+
+    passwordFocusNode.addListener(() {
+
+      context.read<LoginBloc>().add(
+        PasswordFocusChanged(
+          isFocused: passwordFocusNode.hasFocus,
+          password: passwordTextController.text,
+        ),
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,18 +94,19 @@ class LoginPage extends StatelessWidget {
                   child: Column(
                     children: [
                       FormInputField(
-                        controller: TextEditingController(),
+                        controller: emailTextController,
                         hintText: 'Enter your email',
                         labelText: 'Email',
                         onChanged: (value) {
                           context.read<LoginBloc>().add(ClearErrors());
                         },
+                        focusNode: emailFocusNode,
                       ),
                       const SizedBox(height: 36),
 
                       // password field
                       FormInputField(
-                        controller: TextEditingController(),
+                        controller: passwordTextController,
                         hintText: 'Enter your password',
                         labelText: 'Password',
                         isPasswordField: true,
@@ -77,6 +121,7 @@ class LoginPage extends StatelessWidget {
                         onChanged: (value) {
                           context.read<LoginBloc>().add(ClearErrors());
                         },
+                        focusNode: passwordFocusNode,
                       ),
                     ],
                   ),
@@ -87,8 +132,8 @@ class LoginPage extends StatelessWidget {
                 SplashButton(
                   text: 'Log in',
                   onPressed: () {
-                    final email = 'test@example.com';  // Replace with controller text
-                    final password = 'password';       // Replace with controller text
+                    final email = emailTextController.text;
+                    final password = passwordTextController.text;
 
                     // Submit the login event
                     context.read<LoginBloc>().add(LoginSubmitted(email: email, password: password));
@@ -101,5 +146,13 @@ class LoginPage extends StatelessWidget {
         },
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    emailFocusNode.dispose();
+    passwordFocusNode.dispose();
+
+    super.dispose();
   }
 }

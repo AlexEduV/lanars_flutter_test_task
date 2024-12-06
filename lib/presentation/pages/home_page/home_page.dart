@@ -14,6 +14,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
   int listSize = 0;
+  List<Map<String, dynamic>> results = [];
 
   @override
   void initState() {
@@ -40,22 +41,36 @@ class _HomePageState extends State<HomePage> {
       ),
       body: ListView.separated(
         padding: const EdgeInsets.only(top: 16.0),
-        itemCount: listSize,
+        itemCount: results.length,
         itemBuilder: (context, index) {
 
-          final PictureEntry result = GlobalMockStorage.results[index];
+          final result = results[index];
+          final bool isHeader = result['isHeader'];
+          final String? letter = result['letter'];
+          final PictureEntry entry = result['picture'];
 
-          return ImageListItem(
-              imageSrc: result.imageSrc,
-              title: result.photographerName,
-              content: result.altTitle,
+          debugPrint(entry.toString());
+
+          return Row(
+            children: [
+
+              Visibility(
+                visible: isHeader,
+                child: Text(letter ?? '')
+              ),
+
+              Expanded(
+                child: ImageListItem(
+                  imageSrc: entry.imageSrc,
+                  title: entry.photographerName,
+                  content: entry.altTitle,
+                ),
+              )
+            ],
           );
 
         },
-        separatorBuilder: (context, index) {
-
-          return const SizedBox(height: 16.0,);
-        },
+        separatorBuilder: (context, index) => const SizedBox(height: 16.0,)
       ),
       drawer: Drawer(
         child: Column(
@@ -134,14 +149,32 @@ class _HomePageState extends State<HomePage> {
 
   void loadList() async {
 
-    //todo: the logic is unnecessary
     final pictures = await DioClient.getPictures();
 
-    setState(() {
-      listSize = GlobalMockStorage.results.length;
-    });
+    //map the results
+    results = _groupPicturesByFirstLetter(GlobalMockStorage.results);
+
+    setState(() {});
 
 
+  }
+
+  List<Map<String, dynamic>> _groupPicturesByFirstLetter(List<PictureEntry> pictures) {
+    final grouped = <Map<String, dynamic>>[];
+    String? lastLetter;
+
+    for (final PictureEntry picture in pictures) {
+      final letter = picture.photographerName[0].toUpperCase();
+      if (letter != lastLetter) {
+        // Add header entry
+        grouped.add({'isHeader': true, 'letter': letter, 'picture': picture});
+        lastLetter = letter;
+      }
+      // Add picture entry
+      grouped.add({'isHeader': false, 'picture': picture});
+    }
+
+    return grouped;
   }
 
 }

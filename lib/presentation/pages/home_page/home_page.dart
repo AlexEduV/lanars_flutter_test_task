@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
 
           return ImageListItem(
               imageSrc: result.imageSrc,
-              title: result.photographer,
+              title: result.photographerName,
               content: result.altTitle,
           );
 

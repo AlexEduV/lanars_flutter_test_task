@@ -8,3 +8,5 @@ class LoginSubmitted extends LoginEvent {
 }
 
 class ClearErrors extends LoginEvent {}
+
+class TogglePasswordVisibility extends LoginEvent {}

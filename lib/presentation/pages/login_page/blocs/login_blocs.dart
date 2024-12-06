@@ -44,6 +44,15 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         yield LoginInitial();
       }
     }
+
+    if (event is TogglePasswordVisibility) {
+      final currentState = state;
+
+      if (currentState is LoginInitial) {
+        yield LoginInitial(isPasswordObscure: !currentState.isPasswordObscure);
+      }
+
+    }
   }
 
 

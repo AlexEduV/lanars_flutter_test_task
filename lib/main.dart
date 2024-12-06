@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lanars_flutter_test_task/presentation/pages/login_page/blocs/login_blocs.dart';
 import 'package:lanars_flutter_test_task/presentation/pages/login_page/login_page.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    BlocProvider(
+      create: (context) => LoginBloc(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

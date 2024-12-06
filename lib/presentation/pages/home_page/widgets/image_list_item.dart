@@ -27,15 +27,13 @@ class ImageListItem extends StatelessWidget {
               ),
               borderRadius: BorderRadius.circular(8.0),
             ),
-            padding: const EdgeInsets.only(top: 12, bottom: 12, right: 24, left: 24),
+            padding: const EdgeInsets.only(top: 12, bottom: 12, right: 24, left: 16),
             margin: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Row(
               children: [
 
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
                   child: Image.network(
                     imageSrc,
                     height: 56.0,
@@ -51,12 +49,28 @@ class ImageListItem extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
 
-                      Text(title),
+                      Text(
+                        title,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onSurface,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          height: 24 / 16,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
 
                       Text(
                         content,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14,
+                          height: 20 / 14,
+                          letterSpacing: 0.25,
+                        ),
                       ),
 
                     ],

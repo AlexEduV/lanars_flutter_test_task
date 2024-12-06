@@ -46,19 +46,21 @@ class ImageListItem extends StatelessWidget {
 
                 const SizedBox(width: 16.0),
 
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
 
-                    Text(title),
+                      Text(title),
 
-                    Text(
-                      content,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                      Text(
+                        content,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
 
-                  ],
+                    ],
+                  ),
                 ),
 
 

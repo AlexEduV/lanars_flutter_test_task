@@ -39,51 +39,54 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: ListView.separated(
-        padding: const EdgeInsets.only(top: 16.0),
-        itemCount: results.length,
-        itemBuilder: (context, index) {
+      body: RefreshIndicator(
+        onRefresh: loadList,
+        child: ListView.separated(
+          padding: const EdgeInsets.only(top: 16.0),
+          itemCount: results.length,
+          itemBuilder: (context, index) {
 
-          final result = results[index];
-          final bool isHeader = result['isHeader'];
-          final String letter = result['letter'];
-          final PictureEntry entry = result['picture'];
+            final result = results[index];
+            final bool isHeader = result['isHeader'];
+            final String letter = result['letter'];
+            final PictureEntry entry = result['picture'];
 
-          //debugPrint(entry.toString());
+            //debugPrint(entry.toString());
 
-          return Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            return Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
 
-              Opacity(
-                opacity: isHeader ? 1.0 : 0.0,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 16.0),
-                  child: Text(
-                    letter,
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                      fontSize: 16,
-                      height: 24 / 16,
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: 0.15,
+                Opacity(
+                  opacity: isHeader ? 1.0 : 0.0,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 16.0),
+                    child: Text(
+                      letter,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
+                        fontSize: 16,
+                        height: 24 / 16,
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: 0.15,
+                      ),
                     ),
+                  )
+                ),
+
+                Expanded(
+                  child: ImageListItem(
+                    imageSrc: entry.imageSrc,
+                    title: entry.photographerName,
+                    content: entry.altTitle,
                   ),
                 )
-              ),
+              ],
+            );
 
-              Expanded(
-                child: ImageListItem(
-                  imageSrc: entry.imageSrc,
-                  title: entry.photographerName,
-                  content: entry.altTitle,
-                ),
-              )
-            ],
-          );
-
-        },
-        separatorBuilder: (context, index) => const SizedBox(height: 16.0,)
+          },
+          separatorBuilder: (context, index) => const SizedBox(height: 16.0,)
+        ),
       ),
       drawer: Drawer(
         child: Column(
@@ -160,7 +163,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void loadList() async {
+  Future<void> loadList() async {
 
     await DioClient.getPictures();
 

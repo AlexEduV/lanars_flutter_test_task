@@ -18,6 +18,10 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
 
+  // todo: the focus is lost every time I focus on the new textField.
+  // it's happening because I clear the error, the view rebuilds, which
+  // changes focus, which triggers another rebuild
+
   late FocusNode emailFocusNode = FocusNode();
   late FocusNode passwordFocusNode = FocusNode();
 
@@ -82,7 +86,7 @@ class _LoginPageState extends State<LoginPage> {
         },
         builder: (context, state) {
 
-          final currentState = state is LoginInitial ? state : LoginInitial();
+          final currentState = state as LoginInitial;
 
           return SingleChildScrollView(
             child: Column(
@@ -116,44 +120,36 @@ class _LoginPageState extends State<LoginPage> {
                         },
                         focusNode: emailFocusNode,
                         errorText: currentState.emailError,
+                        isEnabled: state is !LoginLoading,
                       ),
 
                       const SizedBox(height: 36),
 
                       // password field
-                      BlocBuilder<LoginBloc, LoginState>(
-
-                        buildWhen: (previous, current) =>
-                          previous.isPasswordObscure != current.isPasswordObscure ||
-                          previous.passwordError != current.passwordError,
-                        builder: (context, state) {
-
-                          return FormInputField(
-                            isObscureText: currentState.isPasswordObscure,
-                            controller: passwordTextController,
-                            hintText: 'Enter your password',
-                            labelText: 'Password',
-                            errorText: currentState.passwordError,
-                            isPasswordField: true,
-                            maxLength: 10,
-                            suffixIcon: FormFieldSuffixIcon(
-                              icon: currentState.isPasswordObscure ? Icons.visibility_off : Icons.visibility,
-                              onPressed: () {
-                                context
-                                    .read<LoginBloc>()
-                                    .add(TogglePasswordVisibility());
-                              },
-                              tooltip: 'Toggle Password',
-                            ),
-                            onChanged: (value) {
-                              if (currentState.passwordError != null) {
-                                context.read<LoginBloc>().add(ClearPasswordErrors());
-                              }
-                            },
-                            focusNode: passwordFocusNode,
-                          );
-
-                        }
+                      FormInputField(
+                        isObscureText: currentState.isPasswordObscure,
+                        controller: passwordTextController,
+                        hintText: 'Enter your password',
+                        labelText: 'Password',
+                        errorText: currentState.passwordError,
+                        isPasswordField: true,
+                        maxLength: 10,
+                        suffixIcon: FormFieldSuffixIcon(
+                          icon: currentState.isPasswordObscure ? Icons.visibility_off : Icons.visibility,
+                          onPressed: () {
+                            context
+                                .read<LoginBloc>()
+                                .add(TogglePasswordVisibility());
+                          },
+                          tooltip: 'Toggle Password',
+                        ),
+                        onChanged: (value) {
+                          if (currentState.passwordError != null) {
+                            context.read<LoginBloc>().add(ClearPasswordErrors());
+                          }
+                        },
+                        focusNode: passwordFocusNode,
+                        isEnabled: state is !LoginLoading,
                       ),
                     ],
                   ),
@@ -163,13 +159,13 @@ class _LoginPageState extends State<LoginPage> {
                 // login button
                 SplashButton(
                   text: 'Log in',
-                  onPressed: () {
+                  onPressed: state is !LoginLoading ? () {
                     final email = emailTextController.text;
                     final password = passwordTextController.text;
 
                     // Submit the login event
                     context.read<LoginBloc>().add(LoginSubmitted(email: email, password: password));
-                  },
+                  } : () {},
                   isLoading: state is LoginLoading,
                 ),
               ],

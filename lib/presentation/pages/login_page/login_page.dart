@@ -22,15 +22,21 @@ class _LoginPageState extends State<LoginPage> {
   // it's happening because I clear the error, the view rebuilds, which
   // changes focus, which triggers another rebuild
 
-  late FocusNode emailFocusNode = FocusNode();
-  late FocusNode passwordFocusNode = FocusNode();
+  late FocusNode emailFocusNode;
+  late FocusNode passwordFocusNode;
 
-  final TextEditingController emailTextController = TextEditingController();
-  final TextEditingController passwordTextController = TextEditingController();
+  late TextEditingController emailTextController;
+  late TextEditingController passwordTextController;
 
   @override
   void initState() {
     super.initState();
+
+    emailFocusNode = FocusNode();
+    passwordFocusNode = FocusNode();
+
+    emailTextController = TextEditingController();
+    passwordTextController = TextEditingController();
 
     emailFocusNode.addListener(() {
       /// if the focus is changed

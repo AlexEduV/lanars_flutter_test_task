@@ -50,22 +50,28 @@ class LoginFailure extends LoginState {
 
   LoginFailure({required this.message});
 }
-class LoginError extends LoginState {
+class LoginError extends LoginState with EquatableMixin {
   final String? emailError;
   final String? passwordError;
 
   LoginError({
-    this.emailError = '',
-    this.passwordError = '',
+    this.emailError,
+    this.passwordError,
   });
+
+  @override
+  List<Object?> get props => [
+    emailError,
+    passwordError,
+  ];
 
   LoginError copyWith({
     String? emailError,
     String? passwordError,
   }) {
     return LoginError(
-      emailError: emailError ?? this.emailError,
-      passwordError: passwordError ?? this.passwordError,
+      emailError: emailError,
+      passwordError: passwordError,
     );
   }
 }

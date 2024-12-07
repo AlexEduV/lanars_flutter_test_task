@@ -53,6 +53,7 @@ class FormInputField extends StatelessWidget {
           ),
           counterText: "",
           suffixIcon: suffixIcon,
+          floatingLabelBehavior: FloatingLabelBehavior.always,
         ),
         maxLength: maxLength,
         textInputAction: TextInputAction.next,

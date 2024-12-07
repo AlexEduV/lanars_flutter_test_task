@@ -67,6 +67,17 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   @override
+  void dispose() {
+    emailFocusNode.dispose();
+    passwordFocusNode.dispose();
+
+    emailTextController.dispose();
+    passwordTextController.dispose();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
 
     return Scaffold(
@@ -85,8 +96,6 @@ class _LoginPageState extends State<LoginPage> {
           }
         },
         builder: (context, state) {
-
-          final currentState = state as LoginInitial;
 
           return SingleChildScrollView(
             child: Column(
@@ -109,47 +118,63 @@ class _LoginPageState extends State<LoginPage> {
                     children: [
 
                       // email field
-                      FormInputField(
-                        controller: emailTextController,
-                        hintText: 'Enter your email',
-                        labelText: 'Email',
-                        onChanged: (value) {
-                          if (currentState.emailError != null) {
-                            context.read<LoginBloc>().add(ClearEmailErrors());
-                          }
-                        },
-                        focusNode: emailFocusNode,
-                        errorText: currentState.emailError,
-                        isEnabled: state is !LoginLoading,
+                      BlocBuilder<LoginBloc, LoginState>(
+                        buildWhen: (previous, current) => current is LoginInitial && previous != current,
+                        builder: (context, state) {
+
+                          final emailError = state is LoginInitial ? state.emailError : null;
+
+                          return FormInputField(
+                            controller: emailTextController,
+                            hintText: 'Enter your email',
+                            labelText: 'Email',
+                            onChanged: (value) {
+                              if (emailError != null) {
+                                context.read<LoginBloc>().add(ClearEmailErrors());
+                              }
+                            },
+                            focusNode: emailFocusNode,
+                            errorText: emailError,
+                            isEnabled: state is !LoginLoading,
+                          );
+                        }
                       ),
 
                       const SizedBox(height: 36),
 
                       // password field
-                      FormInputField(
-                        isObscureText: currentState.isPasswordObscure,
-                        controller: passwordTextController,
-                        hintText: 'Enter your password',
-                        labelText: 'Password',
-                        errorText: currentState.passwordError,
-                        isPasswordField: true,
-                        maxLength: 10,
-                        suffixIcon: FormFieldSuffixIcon(
-                          icon: currentState.isPasswordObscure ? Icons.visibility_off : Icons.visibility,
-                          onPressed: () {
-                            context
-                                .read<LoginBloc>()
-                                .add(TogglePasswordVisibility());
-                          },
-                          tooltip: 'Toggle Password',
-                        ),
-                        onChanged: (value) {
-                          if (currentState.passwordError != null) {
-                            context.read<LoginBloc>().add(ClearPasswordErrors());
-                          }
-                        },
-                        focusNode: passwordFocusNode,
-                        isEnabled: state is !LoginLoading,
+                      BlocBuilder<LoginBloc, LoginState>(
+                        buildWhen: (previous, current) => current is LoginInitial && previous != current,
+                        builder: (context, state) {
+                          final passwordError = state is LoginInitial ? state.passwordError : null;
+                          final isPasswordObscure = state is LoginInitial ? state.isPasswordObscure : true;
+
+                          return FormInputField(
+                            isObscureText: isPasswordObscure,
+                            controller: passwordTextController,
+                            hintText: 'Enter your password',
+                            labelText: 'Password',
+                            errorText: passwordError,
+                            isPasswordField: true,
+                            maxLength: 10,
+                            suffixIcon: FormFieldSuffixIcon(
+                              icon: isPasswordObscure ? Icons.visibility_off : Icons.visibility,
+                              onPressed: () {
+                                context
+                                    .read<LoginBloc>()
+                                    .add(TogglePasswordVisibility());
+                              },
+                              tooltip: 'Toggle Password',
+                            ),
+                            onChanged: (value) {
+                              if (passwordError != null) {
+                                context.read<LoginBloc>().add(ClearPasswordErrors());
+                              }
+                            },
+                            focusNode: passwordFocusNode,
+                            isEnabled: state is !LoginLoading,
+                          );
+                        }
                       ),
                     ],
                   ),
@@ -174,16 +199,5 @@ class _LoginPageState extends State<LoginPage> {
         },
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    emailFocusNode.dispose();
-    passwordFocusNode.dispose();
-
-    emailTextController.dispose();
-    passwordTextController.dispose();
-
-    super.dispose();
   }
 }

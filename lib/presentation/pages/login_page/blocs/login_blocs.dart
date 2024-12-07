@@ -69,8 +69,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   // Toggle password visibility handler
-  void _onTogglePasswordVisibility(
-      TogglePasswordVisibility event, Emitter<LoginState> emit) {
+  void _onTogglePasswordVisibility(TogglePasswordVisibility event, Emitter<LoginState> emit) {
     final currentState = state as LoginInitial;
     emit(currentState.copyWith(
       isPasswordObscure: !currentState.isPasswordObscure,

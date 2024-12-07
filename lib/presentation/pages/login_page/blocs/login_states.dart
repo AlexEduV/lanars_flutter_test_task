@@ -1,6 +1,8 @@
+import 'package:equatable/equatable.dart';
+
 abstract class LoginState {}
 
-class LoginInitial extends LoginState {
+class LoginInitial extends LoginState with EquatableMixin {
   final bool isPasswordObscure;
   final bool isEmailFocused;
   final bool isPasswordFocused;
@@ -15,6 +17,15 @@ class LoginInitial extends LoginState {
     this.passwordError,
   });
 
+  @override
+  List<Object?> get props => [
+    isPasswordObscure,
+    isEmailFocused,
+    isPasswordFocused,
+    emailError,
+    passwordError,
+  ];
+
   LoginInitial copyWith({
     bool? isPasswordObscure,
     bool? isEmailFocused,
@@ -26,8 +37,8 @@ class LoginInitial extends LoginState {
       isPasswordObscure: isPasswordObscure ?? this.isPasswordObscure,
       isEmailFocused: isEmailFocused ?? this.isEmailFocused,
       isPasswordFocused: isPasswordFocused ?? this.isPasswordFocused,
-      emailError: emailError ?? this.emailError,
-      passwordError: passwordError ?? this.passwordError,
+      emailError: emailError,
+      passwordError: passwordError,
     );
   }
 

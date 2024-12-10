@@ -14,8 +14,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<ClearEmailErrors>(_onClearEmailErrors);
     on<ClearPasswordErrors>(_onClearPasswordErrors);
     on<TogglePasswordVisibility>(_onTogglePasswordVisibility);
-    on<EmailFocusChanged>(_onEmailFocusChanged);
-    on<PasswordFocusChanged>(_onPasswordFocusChanged);
+    on<EmailUnfocused>(_onEmailUnfocused);
+    on<PasswordUnfocused>(_onPasswordUnfocused);
   }
 
   // Login submission handler
@@ -77,29 +77,26 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   // Email focus change handler
-  void _onEmailFocusChanged(
-      EmailFocusChanged event, Emitter<LoginState> emit) {
+  void _onEmailUnfocused(
+      EmailUnfocused event, Emitter<LoginState> emit) {
     final currentState = state as LoginInitial;
 
-    //if (!event.isFocused) {
-      final emailError = validateEmail(event.email);
-      if (currentState.emailError != emailError) {
-        emit(currentState.copyWith(emailError: emailError));
-      }
-    //}
+    final emailError = validateEmail(event.email);
+    if (currentState.emailError != emailError) {
+      emit(currentState.copyWith(emailError: emailError));
+    }
   }
 
   // Password focus change handler
-  void _onPasswordFocusChanged(
-      PasswordFocusChanged event, Emitter<LoginState> emit) {
+  void _onPasswordUnfocused(
+      PasswordUnfocused event, Emitter<LoginState> emit) {
     final currentState = state as LoginInitial;
 
-    //if (!event.isFocused) {
-      final passwordError = validatePassword(event.password);
-      if (currentState.passwordError != passwordError) {
-        emit(currentState.copyWith(passwordError: passwordError));
-      }
-    //}
+    final passwordError = validatePassword(event.password);
+    if (currentState.passwordError != passwordError) {
+      emit(currentState.copyWith(passwordError: passwordError));
+    }
+
   }
 }
 

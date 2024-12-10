@@ -14,17 +14,15 @@ class ClearPasswordErrors extends LoginEvent {}
 class TogglePasswordVisibility extends LoginEvent {}
 
 
-class EmailFocusChanged extends LoginEvent {
-  final bool isFocused;
+class EmailUnfocused extends LoginEvent {
   final String email;
 
-  EmailFocusChanged({required this.isFocused, required this.email});
+  EmailUnfocused({required this.email});
 
 }
 
-class PasswordFocusChanged extends LoginEvent {
-  final bool isFocused;
+class PasswordUnfocused extends LoginEvent {
   final String password;
 
-  PasswordFocusChanged({required this.isFocused, required this.password});
+  PasswordUnfocused({required this.password});
 }

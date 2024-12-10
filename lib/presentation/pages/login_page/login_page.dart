@@ -18,15 +18,33 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
 
-  // todo: the focus is lost every time I focus on the new textField.
-  // it's happening because I clear the error, the view rebuilds, which
-  // changes focus, which triggers another rebuild
+  /* todo: the focus is behaving incorrectly. Every time I click on the
+  * text field, the keyboard hides (shows and hides) automatically. It's
+  * because of the error message. The outline works properly, but the focus is not.
+  *
+  * I have tried using key for the text field to not rebuild the focus node, but no change.
+  *
+  * The event loop is as follows:
+  * focus_changed -> emailUnfocused -> validate -> InitState(withError:)
+  *
+  * Somehow, the error clears not onChange, but on focus. Maybe the field gets
+  * rebuild on focus
+  *
+  * Also, when I click on the password toggle, the keyboard just hides,
+  * maybe because the event triggers all page to rebuild
+  * 
+  */
+
+
 
   late FocusNode emailFocusNode;
   late FocusNode passwordFocusNode;
 
   late TextEditingController emailTextController;
   late TextEditingController passwordTextController;
+
+  late Key emailTextFieldKey;
+  late Key passwordTextFieldKey;
 
   @override
   void initState() {
@@ -38,6 +56,9 @@ class _LoginPageState extends State<LoginPage> {
     emailTextController = TextEditingController();
     passwordTextController = TextEditingController();
 
+    emailTextFieldKey = const ValueKey('email');
+    passwordTextFieldKey = const ValueKey('password');
+
     emailFocusNode.addListener(() {
       /// if the focus is changed
       /// and the focus now is not here, since we have left
@@ -48,11 +69,12 @@ class _LoginPageState extends State<LoginPage> {
       if (!emailFocusNode.hasFocus) {
 
         context.read<LoginBloc>().add(
-          EmailFocusChanged(
-            isFocused: emailFocusNode.hasFocus,
-            email: emailTextController.text,
-          ),
+          EmailUnfocused(email: emailTextController.text,),
         );
+
+        // todo: while it is suggested in the examples, I am still
+        // not sure about the effects of this line.
+        FocusScope.of(context).requestFocus(passwordFocusNode);
       }
 
     });
@@ -62,10 +84,7 @@ class _LoginPageState extends State<LoginPage> {
       if (!passwordFocusNode.hasFocus) {
 
         context.read<LoginBloc>().add(
-          PasswordFocusChanged(
-            isFocused: passwordFocusNode.hasFocus,
-            password: passwordTextController.text,
-          ),
+          PasswordUnfocused(password: passwordTextController.text,),
         );
       }
 
@@ -131,6 +150,7 @@ class _LoginPageState extends State<LoginPage> {
                           final emailError = state is LoginInitial ? state.emailError : null;
 
                           return FormInputField(
+                            key: emailTextFieldKey,
                             controller: emailTextController,
                             hintText: 'Enter your email',
                             labelText: 'Email',
@@ -156,6 +176,7 @@ class _LoginPageState extends State<LoginPage> {
                           final isPasswordObscure = state is LoginInitial ? state.isPasswordObscure : true;
 
                           return FormInputField(
+                            key: passwordTextFieldKey,
                             isObscureText: isPasswordObscure,
                             controller: passwordTextController,
                             hintText: 'Enter your password',

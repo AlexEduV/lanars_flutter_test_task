@@ -1,5 +1,5 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:lanars_flutter_test_task/presentation/pages/home_page/home_page.dart';
 import 'package:lanars_flutter_test_task/presentation/pages/login_page/blocs/login_blocs.dart';
 import 'package:lanars_flutter_test_task/presentation/pages/login_page/blocs/login_events.dart';
 import 'package:lanars_flutter_test_task/presentation/pages/login_page/blocs/login_states.dart';
@@ -8,7 +8,9 @@ import 'package:lanars_flutter_test_task/presentation/pages/login_page/widgets/f
 import 'package:lanars_flutter_test_task/presentation/pages/login_page/widgets/splash_button.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lanars_flutter_test_task/router/router.dart';
 
+@RoutePage()
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -90,10 +92,7 @@ class _LoginPageState extends State<LoginPage> {
           }
           if (state is LoginSuccess) {
             // Navigate to next screen on success
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const HomePage()),
-            );
+            context.router.replace(const HomeRoute());
           }
         },
         builder: (context, state) {

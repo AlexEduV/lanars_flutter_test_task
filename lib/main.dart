@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lanars_flutter_test_task/presentation/pages/home_page/blocs/home_blocs.dart';
 import 'package:lanars_flutter_test_task/presentation/pages/login_page/blocs/login_blocs.dart';
 import 'package:lanars_flutter_test_task/presentation/pages/login_page/login_page.dart';
 
 void main() {
   runApp(
-    BlocProvider(
-      create: (context) => LoginBloc(),
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => LoginBloc()),
+        BlocProvider(create: (context) => HomeBloc())
+      ],
       child: const MyApp(),
     ),
   );

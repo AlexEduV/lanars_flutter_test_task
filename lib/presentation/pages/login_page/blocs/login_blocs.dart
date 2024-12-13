@@ -19,20 +19,24 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   // Login submission handler
-  Future<void> _onLoginSubmitted(
-      LoginSubmitted event, Emitter<LoginState> emit) async {
-    emit(LoginLoading());
+  Future<void> _onLoginSubmitted(LoginSubmitted event, Emitter<LoginState> emit) async {
+
+    debugPrint('login submitted');
 
     final emailError = validateEmail(event.email);
     final passwordError = validatePassword(event.password);
 
     if (emailError != null || passwordError != null) {
-      emit(LoginError(
-        emailError: emailError ?? '',
-        passwordError: passwordError ?? '',
-      ));
+      emit(
+          LoginInitial(
+            emailError: emailError,
+            passwordError: passwordError,
+          )
+      );
       return;
     }
+
+    emit(LoginLoading());
 
     final result = await DioClient.submitForm(
       CustomFormData(email: event.email, password: event.password).toMap(),

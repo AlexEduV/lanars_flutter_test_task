@@ -18,25 +18,6 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
 
-  /* todo: the focus is behaving incorrectly. Every time I click on the
-  * text field, the keyboard hides (shows and hides) automatically. It's
-  * because of the error message. The outline works properly, but the focus is not.
-  *
-  * I have tried using key for the text field to not rebuild the focus node, but no change.
-  *
-  * The event loop is as follows:
-  * focus_changed -> emailUnfocused -> validate -> InitState(withError:)
-  *
-  * Somehow, the error clears not onChange, but on focus. Maybe the field gets
-  * rebuild on focus
-  *
-  * Also, when I click on the password toggle, the keyboard just hides,
-  * maybe because the event triggers all page to rebuild
-  * 
-  */
-
-
-
   late FocusNode emailFocusNode;
   late FocusNode passwordFocusNode;
 
@@ -60,11 +41,6 @@ class _LoginPageState extends State<LoginPage> {
     passwordTextFieldKey = const ValueKey('password');
 
     emailFocusNode.addListener(() {
-      /// if the focus is changed
-      /// and the focus now is not here, since we have left
-      /// we do not clear error, but validate the view and show error if exists
-
-      /// if the focus is only begun, we do not need to do anything
 
       if (!emailFocusNode.hasFocus) {
 
@@ -138,7 +114,7 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 72),
 
                 Form(
-                  key: GlobalKey<FormState>(),
+                  //key: GlobalKey<FormState>(),
                   child: Column(
                     children: [
 

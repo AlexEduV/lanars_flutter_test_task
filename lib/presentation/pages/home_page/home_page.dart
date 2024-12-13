@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lanars_flutter_test_task/data/storage/global_mock_storage.dart';
@@ -7,6 +8,7 @@ import 'package:lanars_flutter_test_task/presentation/pages/home_page/blocs/home
 import 'package:lanars_flutter_test_task/presentation/pages/home_page/blocs/home_states.dart';
 import 'package:lanars_flutter_test_task/presentation/pages/home_page/widgets/image_list_item.dart';
 
+@RoutePage()
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 

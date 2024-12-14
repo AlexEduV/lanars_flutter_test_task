@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lanars_flutter_test_task/data/services/dio_client.dart';
+import 'package:lanars_flutter_test_task/data/network/dio_client.dart';
 import 'package:lanars_flutter_test_task/data/storage/global_mock_storage.dart';
 import 'package:lanars_flutter_test_task/domain/models/custom_form_data.dart';
 import 'package:lanars_flutter_test_task/domain/usecases/validate_form_usecase.dart';

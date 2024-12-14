@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lanars_flutter_test_task/presentation/pages/home_page/blocs/home_blocs.dart';
 import 'package:lanars_flutter_test_task/presentation/pages/login_page/blocs/login_blocs.dart';
-import 'package:lanars_flutter_test_task/presentation/pages/login_page/login_page.dart';
 import 'package:lanars_flutter_test_task/presentation/theme/theme.dart';
 import 'package:lanars_flutter_test_task/router/router.dart';
 

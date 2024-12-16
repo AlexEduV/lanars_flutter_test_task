@@ -37,8 +37,8 @@ class LoginInitial extends LoginState with EquatableMixin {
       isPasswordObscure: isPasswordObscure ?? this.isPasswordObscure,
       isEmailFocused: isEmailFocused ?? this.isEmailFocused,
       isPasswordFocused: isPasswordFocused ?? this.isPasswordFocused,
-      emailError: emailError,
-      passwordError: passwordError,
+      emailError: emailError ?? this.emailError,
+      passwordError: passwordError ?? this.passwordError,
     );
   }
 

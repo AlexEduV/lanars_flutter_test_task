@@ -8,6 +8,12 @@ import 'package:lanars_flutter_test_task/domain/models/user.dart';
 
 class DioClient {
 
+  //todo: create repository and impls as per clean architecture
+  //the response should just return data, not process it
+  //the mock storage might need to be reworked
+  //use retrofit as per project requirements
+
+
   static final Dio client = Dio();
 
   //endpoints

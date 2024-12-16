@@ -46,9 +46,7 @@ class FormInputField extends StatelessWidget {
           label: Text(
             labelText,
             style: TextStyle(
-              color: focusNode.hasFocus
-                  ? Theme.of(context).colorScheme.primary
-                  : Theme.of(context).colorScheme.onSurfaceVariant,
+              color: getLabelColor(context),
             ),
           ),
           counterText: "",
@@ -66,5 +64,19 @@ class FormInputField extends StatelessWidget {
         enabled: isEnabled,
       ),
     );
+  }
+
+  Color getLabelColor(BuildContext context) {
+
+    if (!focusNode.hasFocus) {
+      return Theme.of(context).colorScheme.onSurfaceVariant;
+    }
+
+    if (errorText != null) {
+      return Theme.of(context).colorScheme.error;
+    }
+
+    return Theme.of(context).colorScheme.primary;
+
   }
 }

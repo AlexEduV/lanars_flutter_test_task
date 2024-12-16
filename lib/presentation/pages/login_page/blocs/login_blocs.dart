@@ -57,7 +57,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
     if (currentState.emailError != null) {
       emit(currentState.copyWith(
-        emailError: null,
+        emailError: '',
       ));
     }
   }
@@ -67,7 +67,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
     if (currentState.passwordError != null) {
       emit(currentState.copyWith(
-        passwordError: null,
+        passwordError: '',
       ));
     }
   }

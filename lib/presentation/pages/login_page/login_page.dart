@@ -20,6 +20,9 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
 
+  //todo: the error should not go away when the field is focused
+  //todo: nor shall it go away when I click on obscurity button
+
   late FocusNode emailFocusNode;
   late FocusNode passwordFocusNode;
 
@@ -52,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
 
         // todo: while it is suggested in the examples, I am still
         // not sure about the effects of this line.
-        FocusScope.of(context).requestFocus(passwordFocusNode);
+        //FocusScope.of(context).requestFocus(passwordFocusNode);
       }
 
     });

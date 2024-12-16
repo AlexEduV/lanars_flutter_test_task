@@ -37,7 +37,7 @@ class FormInputField extends StatelessWidget {
       child: TextFormField(
         focusNode: focusNode,
         decoration: InputDecoration(
-          errorText: errorText,
+          errorText: getErrorText(errorText),
           border: const OutlineInputBorder(),
           hintText: hintText,
           hintStyle: TextStyle(
@@ -68,15 +68,25 @@ class FormInputField extends StatelessWidget {
 
   Color getLabelColor(BuildContext context) {
 
+    if (errorText != null && errorText != '') {
+      return Theme.of(context).colorScheme.error;
+    }
+
     if (!focusNode.hasFocus) {
       return Theme.of(context).colorScheme.onSurfaceVariant;
     }
 
-    if (errorText != null) {
-      return Theme.of(context).colorScheme.error;
-    }
-
     return Theme.of(context).colorScheme.primary;
 
+  }
+
+  String? getErrorText(String? errorText) {
+
+    if (errorText == '') {
+      return null;
+    }
+    else {
+      return errorText;
+    }
   }
 }

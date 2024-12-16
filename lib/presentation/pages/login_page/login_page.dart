@@ -140,6 +140,7 @@ class _LoginPageState extends State<LoginPage> {
                             focusNode: emailFocusNode,
                             errorText: emailError,
                             isEnabled: state is !LoginLoading,
+                            keyboardType: TextInputType.emailAddress,
                           );
                         }
                       ),

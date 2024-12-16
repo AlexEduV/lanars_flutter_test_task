@@ -13,6 +13,7 @@ class FormInputField extends StatelessWidget {
   final ValueChanged<String>? onChanged;
   final String? errorText;
   final bool isEnabled;
+  final TextInputType? keyboardType;
 
   const FormInputField({
     required this.controller,
@@ -26,6 +27,7 @@ class FormInputField extends StatelessWidget {
     this.isObscureText = false,
     this.isEnabled = true,
     this.errorText,
+    this.keyboardType,
     super.key,
   });
 
@@ -62,6 +64,7 @@ class FormInputField extends StatelessWidget {
         enableInteractiveSelection: isPasswordField,
         onChanged: onChanged,
         enabled: isEnabled,
+        keyboardType: keyboardType,
       ),
     );
   }

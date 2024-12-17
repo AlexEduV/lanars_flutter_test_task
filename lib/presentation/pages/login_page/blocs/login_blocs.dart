@@ -23,8 +23,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
     debugPrint('login submitted');
 
-    final emailError = validateEmail(event.email);
-    final passwordError = validatePassword(event.password);
+    final emailError = EmailValidator().validate(event.email);
+    final passwordError = PasswordValidator().validate(event.password);
 
     if (emailError != null || passwordError != null) {
       emit(
@@ -85,7 +85,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       EmailUnfocused event, Emitter<LoginState> emit) {
     final currentState = state as LoginInitial;
 
-    final emailError = validateEmail(event.email);
+    final emailError = EmailValidator().validate(event.email);
     if (currentState.emailError != emailError) {
       emit(currentState.copyWith(emailError: emailError));
     }
@@ -96,7 +96,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       PasswordUnfocused event, Emitter<LoginState> emit) {
     final currentState = state as LoginInitial;
 
-    final passwordError = validatePassword(event.password);
+    final passwordError = PasswordValidator().validate(event.password);
     if (currentState.passwordError != passwordError) {
       emit(currentState.copyWith(passwordError: passwordError));
     }

@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lanars_flutter_test_task/data/network/dio_client.dart';
+import 'package:lanars_flutter_test_task/data/repositories/pictures_repository_impl.dart';
 import 'package:lanars_flutter_test_task/data/storage/global_mock_storage.dart';
 import 'package:lanars_flutter_test_task/domain/models/picture_entry.dart';
 import 'package:lanars_flutter_test_task/presentation/pages/home_page/blocs/home_events.dart';
@@ -14,7 +14,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
     emit(HomeLoading());
     try {
-      await DioClient.getPictures();
+      await PicturesRepositoryImpl().getPictures();
       final results = _groupPicturesByFirstLetter(GlobalMockStorage.results);
       emit(HomeLoaded(results));
     } catch (e) {

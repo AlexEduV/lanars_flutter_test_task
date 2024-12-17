@@ -1,10 +1,6 @@
 import 'package:dio/dio.dart';
 
 class DioClient {
-  //the mock storage might need to be reworked
-  //use retrofit as per project requirements
-
-
   static final Dio client = Dio();
 
   static String handleError(DioException e) {

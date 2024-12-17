@@ -5,6 +5,8 @@ import 'package:lanars_flutter_test_task/domain/usecases/get_random_person_useca
 
 class LoginRepositoryImpl implements LoginRepository {
 
+  //todo: use retrofit as per project requirements
+
   final randomUserEndPoint = 'https://randomuser.me/api/';
 
 

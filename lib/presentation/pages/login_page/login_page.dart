@@ -20,9 +20,6 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
 
-  //todo: the error should not go away when the field is focused
-  //todo: nor shall it go away when I click on obscurity button
-
   late FocusNode emailFocusNode;
   late FocusNode passwordFocusNode;
 
@@ -42,8 +39,8 @@ class _LoginPageState extends State<LoginPage> {
     emailTextController = TextEditingController();
     passwordTextController = TextEditingController();
 
-    emailTextFieldKey = const ValueKey('email');
-    passwordTextFieldKey = const ValueKey('password');
+    emailTextFieldKey = const Key('email');
+    passwordTextFieldKey = const Key('password');
 
     emailFocusNode.addListener(() {
 
@@ -52,10 +49,6 @@ class _LoginPageState extends State<LoginPage> {
         context.read<LoginBloc>().add(
           EmailUnfocused(email: emailTextController.text,),
         );
-
-        // todo: while it is suggested in the examples, I am still
-        // not sure about the effects of this line.
-        //FocusScope.of(context).requestFocus(passwordFocusNode);
       }
 
     });

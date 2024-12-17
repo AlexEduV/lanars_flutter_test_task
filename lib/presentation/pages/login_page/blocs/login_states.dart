@@ -33,6 +33,7 @@ class LoginInitial extends LoginState with EquatableMixin {
     String? emailError,
     String? passwordError,
   }) {
+
     return LoginInitial(
       isPasswordObscure: isPasswordObscure ?? this.isPasswordObscure,
       isEmailFocused: isEmailFocused ?? this.isEmailFocused,
@@ -69,6 +70,7 @@ class LoginError extends LoginState with EquatableMixin {
     String? emailError,
     String? passwordError,
   }) {
+
     return LoginError(
       emailError: emailError,
       passwordError: passwordError,

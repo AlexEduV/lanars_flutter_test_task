@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lanars_flutter_test_task/data/network/dio_client.dart';
 import 'package:lanars_flutter_test_task/data/repositories/login_repository_impl.dart';
 import 'package:lanars_flutter_test_task/data/storage/global_mock_storage.dart';
 import 'package:lanars_flutter_test_task/domain/models/custom_form_data.dart';
@@ -41,11 +42,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
 
     final result = await LoginRepositoryImpl().submitForm(
+      DioClient.client,
       CustomFormData(email: event.email, password: event.password)
           .toMap(),
     );
 
-    await LoginRepositoryImpl().getRandomUser();
+    await LoginRepositoryImpl().getRandomUser(DioClient.client);
 
     if (GlobalMockStorage.user.firstName.isEmpty) {
       emit(LoginFailure(message: result));

@@ -11,11 +11,11 @@ class PicturesRepositoryImpl implements PicturesRepository {
   final api = 'd0K2cyjHJ01jpHmINGkSZyoyrZ6CNxDUcsECbOdTzMeDG0AZpJteBDjp'; // use your own here;
 
   @override
-  Future<String> getPictures() async {
+  Future<String> getPictures(Dio client) async {
 
     try {
 
-      final response = await DioClient.client.get(picturesEndPoint,
+      final response = await client.get(picturesEndPoint,
         options: Options(
             headers: {
               'Authorization': api

@@ -11,11 +11,11 @@ class LoginRepositoryImpl implements LoginRepository {
 
 
   @override
-  Future<String> getRandomUser() async {
+  Future<String> getRandomUser(Dio client) async {
 
     try {
 
-      final response = await DioClient.client.get(randomUserEndPoint);
+      final response = await client.get(randomUserEndPoint);
       processPersonResponse(response);
 
     } on DioException catch (e) {
@@ -27,10 +27,10 @@ class LoginRepositoryImpl implements LoginRepository {
   }
 
   @override
-  Future<String> submitForm(Map<String, dynamic> formData) async {
+  Future<String> submitForm(Dio client, Map<String, dynamic> formData) async {
 
     try {
-      final response = await DioClient.client.post(
+      final response = await client.post(
         randomUserEndPoint,
         data: formData,
       );

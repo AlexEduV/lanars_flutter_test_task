@@ -30,20 +30,10 @@ class DioClient {
         data: formData,
       );
 
-      if (response.statusCode == 200) {
-        return response.data['data'];
-      }
-      else {
-        return 'Form Error';
-      }
+      return response.data['data'];
 
     } on DioException catch (e) {
-      if (e.type == DioExceptionType.connectionTimeout) {
-        return 'Connection Error - Timeout';
-      }
-      else if (e.type == DioExceptionType.badResponse) {
-        return 'Server Error. Please, try again';
-      }
+      DioClient._handleError(e);
     }
 
     return '';
@@ -53,28 +43,18 @@ class DioClient {
   static Future<String> getRandomUser() async {
 
     try {
+
       final response = await client.get(randomUserEndPoint);
-      if (response.statusCode == 200) {
-        //debugPrint(response.toString());
+      //debugPrint(response.toString());
 
-        //process data and put it into a global storage
-        Map<String, dynamic> decodedResponse = jsonDecode(response.toString());
-        final firstResult = decodedResponse['results'][0];
+      //process data and put it into a global storage
+      Map<String, dynamic> decodedResponse = jsonDecode(response.toString());
+      final firstResult = decodedResponse['results'][0];
 
-        GlobalMockStorage.user = User.fromJson(firstResult);
-
-      }
-      else {
-        return 'Server Error. Please, try again';
-      }
+      GlobalMockStorage.user = User.fromJson(firstResult);
 
     } on DioException catch (e) {
-      if (e.type == DioExceptionType.connectionTimeout) {
-        return 'Connection Error - Timeout';
-      }
-      else if (e.type == DioExceptionType.badResponse) {
-        return 'Server Error. Please, try again';
-      }
+      DioClient._handleError(e);
     }
 
     return '';
@@ -93,36 +73,38 @@ class DioClient {
             }
           )
       );
-      if (response.statusCode == 200) {
-        debugPrint(response.toString());
 
-        //convert to list of picture entities
-        //todo: move this to the domain layer
-        final decodedJson = jsonDecode(response.toString());
+      //debugPrint(response.toString());
 
-        final List<PictureEntry> resultsList = (decodedJson['photos'] as List)
-            .map((pictureJson) => PictureEntry.fromJson(pictureJson))
-            .toList();
+      //todo: move this to the domain layer
+      //convert to list of picture entities
+      final decodedJson = jsonDecode(response.toString());
 
-        //sort values by the name of the photographer
-        resultsList.sort((a, b) => a.photographerName.compareTo(b.photographerName));
+      final List<PictureEntry> resultsList = (decodedJson['photos'] as List)
+          .map((pictureJson) => PictureEntry.fromJson(pictureJson))
+          .toList();
 
-        GlobalMockStorage.results = resultsList;
+      //sort values by the name of the photographer
+      resultsList.sort((a, b) => a.photographerName.compareTo(b.photographerName));
 
-      }
-      else {
-        return 'Server Error. Please, try again';
-      }
+      GlobalMockStorage.results = resultsList;
+
     } on DioException catch (e) {
-      if (e.type == DioExceptionType.connectionTimeout) {
-        return 'Connection Error - Timeout';
-      }
-      else if (e.type == DioExceptionType.badResponse) {
-        return 'Server Error. Please, try again';
-      }
+      DioClient._handleError(e);
     }
 
     return '';
+  }
+
+  static String _handleError(DioException e) {
+    if (e.type == DioExceptionType.connectionTimeout) {
+      return 'Connection Error - Timeout';
+    }
+    else if (e.type == DioExceptionType.badResponse) {
+      return 'Server Error. Please, try again';
+    }
+
+    return 'Unknown Error';
   }
 
 }

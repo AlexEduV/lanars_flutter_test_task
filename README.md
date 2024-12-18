@@ -8,10 +8,10 @@ A Flutter Mobile App for a Test Task from Lanars
 
 
 ## Features
-- Validate a login input from the user
-- Fetch pictures and user info from the Web using Rest APIs (dio)
+- Validates a login input from the user
+- Fetches pictures and user info from the Web using Rest APIs (dio)
 - clean architecture, with code generation, jsonSerializable
-- bloc state management, equatable.
+- bloc state management, with equatable.
 - a beautiful custom UI, based on a Figma Design
 
 ## Tech Stack

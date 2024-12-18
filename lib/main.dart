@@ -10,7 +10,7 @@ void main() {
     MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => LoginBloc()),
-        BlocProvider(create: (context) => HomeBloc())
+        BlocProvider(create: (context) => HomeBloc()),
       ],
       child: MyApp(),
     ),

@@ -24,6 +24,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   }
 
+  //todo: there's an issue with either this algorithm, or in the UI;
+  //when the item contains a new letter, the list will duplicate the item
   List<Map<String, dynamic>> _groupPicturesByFirstLetter(List<PictureEntry> pictures) {
     final grouped = <Map<String, dynamic>>[];
     String? lastLetter;

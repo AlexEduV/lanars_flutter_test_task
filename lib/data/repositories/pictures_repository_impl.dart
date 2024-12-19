@@ -12,12 +12,15 @@ class PicturesRepositoryImpl implements PicturesRepository {
 
     try {
 
+      //get data
       final service = PicturesApiService(client);
       final response = await service.getPictures(api);
 
+      //sort the data by photographer's name
       final List<PictureEntry> sortedResults = response.photos
         ..sort((a, b) => a.photographerName.compareTo(b.photographerName));
 
+      //store the results in the mock storage
       GlobalMockStorage.results = sortedResults;
 
     } on DioException catch (e) {

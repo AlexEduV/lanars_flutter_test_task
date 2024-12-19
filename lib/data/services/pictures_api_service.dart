@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:lanars_flutter_test_task/domain/models/picture_entry.dart';
 import 'package:lanars_flutter_test_task/domain/models/picture_entry_wrapper.dart';
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';

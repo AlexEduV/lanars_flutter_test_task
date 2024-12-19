@@ -1,29 +1,24 @@
 import 'package:dio/dio.dart';
 import 'package:lanars_flutter_test_task/data/network/dio_client.dart';
+import 'package:lanars_flutter_test_task/data/services/pictures_api_service.dart';
+import 'package:lanars_flutter_test_task/data/storage/global_mock_storage.dart';
+import 'package:lanars_flutter_test_task/domain/models/picture_entry.dart';
 import 'package:lanars_flutter_test_task/domain/repositories/pictures_repository.dart';
-import 'package:lanars_flutter_test_task/domain/usecases/get_pictures_usecase.dart';
 
 class PicturesRepositoryImpl implements PicturesRepository {
-
-  //todo: use retrofit as per project requirements
-
-  final picturesEndPoint = 'https://api.pexels.com/v1/curated?per_page=50';
-  final api = 'd0K2cyjHJ01jpHmINGkSZyoyrZ6CNxDUcsECbOdTzMeDG0AZpJteBDjp'; // use your own here;
 
   @override
   Future<String> getPictures(Dio client) async {
 
     try {
 
-      final response = await client.get(picturesEndPoint,
-        options: Options(
-            headers: {
-              'Authorization': api
-            }
-        ),
-      );
+      final service = PicturesApiService(client);
+      final response = await service.getPictures(api);
 
-      processImagesResponse(response);
+      final List<PictureEntry> sortedResults = response.photos
+        ..sort((a, b) => a.photographerName.compareTo(b.photographerName));
+
+      GlobalMockStorage.results = sortedResults;
 
     } on DioException catch (e) {
       DioClient.handleError(e);

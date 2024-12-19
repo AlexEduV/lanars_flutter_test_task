@@ -14,7 +14,7 @@ class _PicturesApiService implements PicturesApiService {
     this.baseUrl,
     this.errorLogger,
   }) {
-    baseUrl ??= 'https://api.pexels.com/v1/curated?per_page=50';
+    baseUrl ??= 'https://api.pexels.com';
   }
 
   final Dio _dio;
@@ -24,20 +24,20 @@ class _PicturesApiService implements PicturesApiService {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<PictureEntry> getPictures(String api) async {
+  Future<PictureEntryWrapper> getPictures(String api) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{r'Authorisation': api};
+    final _headers = <String, dynamic>{r'Authorization': api};
     _headers.removeWhere((k, v) => v == null);
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<PictureEntry>(Options(
+    final _options = _setStreamType<PictureEntryWrapper>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
         .compose(
           _dio.options,
-          '/',
+          '/v1/curated?per_page=50',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -47,9 +47,9 @@ class _PicturesApiService implements PicturesApiService {
           baseUrl,
         )));
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late PictureEntry _value;
+    late PictureEntryWrapper _value;
     try {
-      _value = PictureEntry.fromJson(_result.data!);
+      _value = PictureEntryWrapper.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

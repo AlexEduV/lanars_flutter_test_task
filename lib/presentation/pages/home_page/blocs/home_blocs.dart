@@ -32,11 +32,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       final letter = picture.photographerName[0].toUpperCase();
       if (letter != lastLetter) {
         // Add header entry
-        grouped.add({'isHeader': true, 'letter': letter,});
+        grouped.add({'isHeader': true, 'letter': letter, 'picture': picture});
         lastLetter = letter;
       }
-      // Add picture entry
-      grouped.add({'isHeader': false, 'letter': letter, 'picture': picture});
+      else {
+        // Add picture entry
+        grouped.add({'isHeader': false, 'letter': letter, 'picture': picture,});
+      }
     }
 
     return grouped;

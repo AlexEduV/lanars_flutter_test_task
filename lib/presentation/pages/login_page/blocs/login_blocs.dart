@@ -88,6 +88,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   // Email focus change handler
   void _onEmailUnfocused(
       EmailUnfocused event, Emitter<LoginState> emit) {
+    if (state is !LoginInitial) return;
+
     final currentState = state as LoginInitial;
 
     final emailError = EmailValidator().validate(event.email);
@@ -99,6 +101,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   // Password focus change handler
   void _onPasswordUnfocused(
       PasswordUnfocused event, Emitter<LoginState> emit) {
+    if (state is !LoginInitial) return;
+
     final currentState = state as LoginInitial;
 
     final passwordError = PasswordValidator().validate(event.password);

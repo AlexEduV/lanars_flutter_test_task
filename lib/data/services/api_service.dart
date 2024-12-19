@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:lanars_flutter_test_task/domain/models/user.dart';
+import 'package:lanars_flutter_test_task/domain/models/user_wrapper.dart';
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
 
@@ -16,7 +17,7 @@ abstract class ApiService {
   factory ApiService(Dio dio, {String baseUrl}) = _ApiService;
 
   @GET('/')
-  Future<User> getRandomUser();
+  Future<UserWrapper> getRandomUser();
 
   @POST('/')
   Future<void> submitForm(@Body() Map<String, dynamic> formData);

@@ -24,12 +24,12 @@ class _ApiService implements ApiService {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<User> getRandomUser() async {
+  Future<UserWrapper> getRandomUser() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<User>(Options(
+    final _options = _setStreamType<UserWrapper>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -46,9 +46,9 @@ class _ApiService implements ApiService {
           baseUrl,
         )));
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late User _value;
+    late UserWrapper _value;
     try {
-      _value = User.fromJson(_result.data!);
+      _value = UserWrapper.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

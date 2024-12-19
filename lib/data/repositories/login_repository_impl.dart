@@ -1,22 +1,24 @@
 import 'package:dio/dio.dart';
 import 'package:lanars_flutter_test_task/data/network/dio_client.dart';
+import 'package:lanars_flutter_test_task/data/services/api_service.dart';
+import 'package:lanars_flutter_test_task/data/storage/global_mock_storage.dart';
+import 'package:lanars_flutter_test_task/domain/models/user_wrapper.dart';
 import 'package:lanars_flutter_test_task/domain/repositories/login_repository.dart';
-import 'package:lanars_flutter_test_task/domain/usecases/get_random_person_usecase.dart';
 
 class LoginRepositoryImpl implements LoginRepository {
 
-  //todo: use retrofit as per project requirements
-
   final randomUserEndPoint = 'https://randomuser.me/api/';
-
 
   @override
   Future<String> getRandomUser(Dio client) async {
 
     try {
 
-      final response = await client.get(randomUserEndPoint);
-      processPersonResponse(response);
+      final ApiService service = ApiService(client);
+      final UserWrapper response = await service.getRandomUser();
+      if (response.results.isNotEmpty) {
+        GlobalMockStorage.user = response.results.first;
+      }
 
     } on DioException catch (e) {
       DioClient.handleError(e);
@@ -30,12 +32,9 @@ class LoginRepositoryImpl implements LoginRepository {
   Future<String> submitForm(Dio client, Map<String, dynamic> formData) async {
 
     try {
-      final response = await client.post(
-        randomUserEndPoint,
-        data: formData,
-      );
 
-      return response.data['data'];
+      final ApiService service = ApiService(client);
+      await service.submitForm(formData);
 
     } on DioException catch (e) {
       DioClient.handleError(e);

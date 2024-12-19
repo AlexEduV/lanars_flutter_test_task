@@ -29,7 +29,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     String? lastLetter;
 
     for (final PictureEntry picture in pictures) {
-      final letter = picture.photographerName[0].toUpperCase();
+      final letter = picture.photographerName[0];
       if (letter != lastLetter) {
         // Add header entry
         grouped.add({'isHeader': true, 'letter': letter, 'picture': picture});

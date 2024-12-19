@@ -14,7 +14,7 @@ class _PicturesApiService implements PicturesApiService {
     this.baseUrl,
     this.errorLogger,
   }) {
-    baseUrl ??= 'https://api.pexels.com';
+    baseUrl ??= 'https://api.pexels.com/v1';
   }
 
   final Dio _dio;
@@ -24,9 +24,12 @@ class _PicturesApiService implements PicturesApiService {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<PictureEntryWrapper> getPictures(String api) async {
+  Future<PictureEntryWrapper> getPictures(
+    String api,
+    int perPage,
+  ) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'per_page': perPage};
     final _headers = <String, dynamic>{r'Authorization': api};
     _headers.removeWhere((k, v) => v == null);
     const Map<String, dynamic>? _data = null;
@@ -37,7 +40,7 @@ class _PicturesApiService implements PicturesApiService {
     )
         .compose(
           _dio.options,
-          '/v1/curated?per_page=50',
+          '/curated',
           queryParameters: queryParameters,
           data: _data,
         )

@@ -12,9 +12,11 @@ class PicturesRepositoryImpl implements PicturesRepository {
 
     try {
 
+      const picturesPerPage = 50;
+
       //get data
       final service = PicturesApiService(client);
-      final response = await service.getPictures(api);
+      final response = await service.getPictures(api, picturesPerPage);
 
       //sort the data by photographer's name
       final List<PictureEntry> sortedResults = response.photos

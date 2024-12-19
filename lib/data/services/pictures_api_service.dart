@@ -5,14 +5,17 @@ import 'package:retrofit/http.dart';
 
 part 'pictures_api_service.g.dart';
 
-const picturesEndPoint = 'https://api.pexels.com';
+const picturesEndPoint = 'https://api.pexels.com/v1';
 const api = 'd0K2cyjHJ01jpHmINGkSZyoyrZ6CNxDUcsECbOdTzMeDG0AZpJteBDjp'; // use your own here;
 
 @RestApi(baseUrl: picturesEndPoint)
 abstract class PicturesApiService {
   factory PicturesApiService(Dio dio, {String baseUrl}) = _PicturesApiService;
 
-  @GET('/v1/curated?per_page=50')
-  Future<PictureEntryWrapper> getPictures(@Header('Authorization') String api);
+  @GET('/curated')
+  Future<PictureEntryWrapper> getPictures(
+      @Header('Authorization') String api,
+      @Query('per_page') int perPage,
+  );
 
 }

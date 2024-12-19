@@ -48,7 +48,7 @@ class HomePage extends StatelessWidget {
                       final result = state.results[index];
                       final bool isHeader = result['isHeader'];
                       final String letter = result['letter'];
-                      final PictureEntry entry = result['picture'];
+                      final PictureEntry? entry = result['picture'];
 
                       //debugPrint(entry.toString());
 
@@ -74,11 +74,11 @@ class HomePage extends StatelessWidget {
                           ),
 
                           Expanded(
-                            child: ImageListItem(
+                            child: entry != null ? ImageListItem(
                               imageSrc: entry.imageSrc,
                               title: entry.photographerName,
                               content: entry.altTitle,
-                            ),
+                            ) : const SizedBox.shrink(),
                           )
                         ],
                       );

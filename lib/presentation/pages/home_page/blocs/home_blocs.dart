@@ -24,8 +24,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   }
 
-  //todo: there's an issue with either this algorithm, or in the UI;
-  //when the item contains a new letter, the list will duplicate the item
   List<Map<String, dynamic>> _groupPicturesByFirstLetter(List<PictureEntry> pictures) {
     final grouped = <Map<String, dynamic>>[];
     String? lastLetter;
@@ -34,7 +32,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       final letter = picture.photographerName[0].toUpperCase();
       if (letter != lastLetter) {
         // Add header entry
-        grouped.add({'isHeader': true, 'letter': letter, 'picture': picture});
+        grouped.add({'isHeader': true, 'letter': letter,});
         lastLetter = letter;
       }
       // Add picture entry

@@ -32,19 +32,18 @@ class HomePage extends StatelessWidget {
         body: BlocBuilder<HomeBloc, HomeState>(
           builder: (context, state) {
 
-            if (state is HomeLoading) {
+            if (state is HomeError) {
+              return Center(child: Text(state.message));
+            }
 
-              //todo: redo the indicator to be smaller, not so distracting
-              return const Center(child: CircularProgressIndicator(),);
-            } else if (state is HomeLoaded) {
+            return RefreshIndicator(
+              onRefresh: () async => context.read<HomeBloc>().add(LoadingPicturesEvent()),
+              child: ListView.separated(
+                  padding: const EdgeInsets.only(top: 16.0),
+                  itemCount: state is HomeLoaded ? state.results.length : 0,
+                  itemBuilder: (context, index) {
 
-              return RefreshIndicator(
-                onRefresh: () async => context.read<HomeBloc>().add(LoadingPicturesEvent()),
-                child: ListView.separated(
-                    padding: const EdgeInsets.only(top: 16.0),
-                    itemCount: state.results.length,
-                    itemBuilder: (context, index) {
-
+                    if (state is HomeLoaded) {
                       final result = state.results[index];
                       final bool isHeader = result['isHeader'];
                       final String letter = result['letter'];
@@ -57,20 +56,20 @@ class HomePage extends StatelessWidget {
                         children: [
 
                           Opacity(
-                              opacity: isHeader ? 1.0 : 0.0,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 16.0),
-                                child: Text(
-                                  letter,
-                                  style: TextStyle(
-                                    color: Theme.of(context).colorScheme.primary,
-                                    fontSize: 16,
-                                    height: 24 / 16,
-                                    fontWeight: FontWeight.w500,
-                                    letterSpacing: 0.15,
-                                  ),
+                            opacity: isHeader ? 1.0 : 0.0,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 16.0),
+                              child: Text(
+                                letter,
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontSize: 16,
+                                  height: 24 / 16,
+                                  fontWeight: FontWeight.w500,
+                                  letterSpacing: 0.15,
                                 ),
                               ),
+                            ),
                           ),
 
                           Expanded(
@@ -82,16 +81,14 @@ class HomePage extends StatelessWidget {
                           ),
                         ],
                       );
+                    } else {
+                      return const SizedBox.shrink();
+                    }
 
-                    },
-                    separatorBuilder: (context, index) => const SizedBox(height: 16.0,)
-                ),
-              );
-            } else if (state is HomeError) {
-              return Center(child: Text(state.message));
-            } else {
-              return const Center(child: Text('No data available'));
-            }
+                  },
+                  separatorBuilder: (context, index) => const SizedBox(height: 16.0,)
+              ),
+            );
           }),
           drawer: Drawer(
             child: Column(

@@ -34,6 +34,7 @@ class HomePage extends StatelessWidget {
 
             if (state is HomeLoading) {
 
+              //todo: redo the indicator to be smaller, not so distracting
               return const Center(child: CircularProgressIndicator(),);
             } else if (state is HomeLoaded) {
 
@@ -122,6 +123,7 @@ class HomePage extends StatelessWidget {
                           GlobalMockStorage.user.avatarImageSrc,
                           height: 56.0,
                           width: 56.0,
+                          fit: BoxFit.cover,
                         ),
                       ),
 

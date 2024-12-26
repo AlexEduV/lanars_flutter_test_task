@@ -18,7 +18,7 @@ A Flutter Mobile App for a Test Task from Lanars
 - Flutter 3.5.0
 - Dart
 - Bloc (State management)
-- Dio, JsonSerializable (Rest API)
+- Dio, JsonSerializable, Retrofit (Rest API)
 
 ## Architecture
 This project follows a **Clean Architecture** structure with the following layers:

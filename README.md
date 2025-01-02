@@ -28,7 +28,8 @@ This project follows a **Clean Architecture** structure with the following layer
 - `presentation`: UI and state management (Bloc).
 
 ## Setup
-1. To use the Pictures API, you should get api key from pexels [here](https://www.pexels.com/api/key/)
+To use the Pictures API, you should:
+1. Get api key from pexels [here](https://www.pexels.com/api/key/)
 
 2. In the root of the project, create a .env file
 

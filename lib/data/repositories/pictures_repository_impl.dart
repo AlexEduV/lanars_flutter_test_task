@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:lanars_flutter_test_task/data/network/dio_client.dart';
 import 'package:lanars_flutter_test_task/data/services/pictures_api_service.dart';
 import 'package:lanars_flutter_test_task/data/storage/global_mock_storage.dart';
@@ -13,10 +14,11 @@ class PicturesRepositoryImpl implements PicturesRepository {
     try {
 
       const picturesPerPage = 50;
+      final String apiKey = dotenv.env['API_KEY'] ?? '';
 
       //get data
       final service = PicturesApiService(client);
-      final response = await service.getPictures(api, picturesPerPage);
+      final response = await service.getPictures(apiKey, picturesPerPage);
 
       //sort the data by photographer's name
       final List<PictureEntry> sortedResults = response.photos

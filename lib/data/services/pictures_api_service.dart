@@ -6,7 +6,6 @@ import 'package:retrofit/http.dart';
 part 'pictures_api_service.g.dart';
 
 const picturesEndPoint = 'https://api.pexels.com/v1';
-const api = 'd0K2cyjHJ01jpHmINGkSZyoyrZ6CNxDUcsECbOdTzMeDG0AZpJteBDjp'; // use your own here;
 
 @RestApi(baseUrl: picturesEndPoint)
 abstract class PicturesApiService {

@@ -26,3 +26,14 @@ This project follows a **Clean Architecture** structure with the following layer
 - `data`: API services and local storage (static variables).
 - `domain`: Business logic and entities.
 - `presentation`: UI and state management (Bloc).
+
+## Setup
+1. To use the Pictures API, you should get api key from pexels [here](https://www.pexels.com/api/key/)
+
+2. In the root of the project, create a .env file
+
+3. Paste your key like this: `API_KEY='Your Key Here'`
+
+4. Then run `pub get` to get all dependencies for the project.
+
+5. And run the project.

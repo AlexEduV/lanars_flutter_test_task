@@ -31,7 +31,7 @@ This project follows a **Clean Architecture** structure with the following layer
 To use the Pictures API, you should:
 1. Get api key from pexels [here](https://www.pexels.com/api/key/)
 
-2. In the root of the project, create a .env file
+2. In the root of the project, create a `.env` file
 
 3. Paste your key like this: `API_KEY='Your Key Here'`
 

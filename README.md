@@ -1,5 +1,5 @@
 # lanars_flutter_test_task
-A Flutter Mobile App for a Test Task from Lanars
+A Flutter Media Mobile App for a Test Task
 
 ## Table of Contents
 - [Features](#features)
